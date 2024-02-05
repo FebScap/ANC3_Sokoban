@@ -1,0 +1,65 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Consolas
+!pragma useIntermediatePackages false
+
+class Game {
+    -board: Board
+    +getBoard()
+}
+
+class Board {
+    -grid: Grid
+    +getGrid()
+}
+
+class Grid {
+    -width: int
+    -height: int
+    -list<list<Cell>>
+    +getWidth() : int
+    +getHeight() : int
+    +getCell(int x, int y) : Cell
+}
+
+abstract class Cell {
+    +set() : void
+    +isMultipleLayer() : Boolean
+}
+
+abstract class GameObject {
+}
+
+abstract class MultipleLayer {}
+
+class Wall {
+}
+
+class Box {
+}
+
+class Player {
+}
+
+class Target {
+}
+
+
+Game *-left-> "1" Board
+Board *-left-> "1" Grid
+Grid *-down-> "1" Cell
+
+MultipleLayer *-left-> "0..1" Cell
+Wall *-right-> "0..1" Cell
+
+
+
+MultipleLayer *-down-> "1..3" GameObject
+GameObject <|-right- Box
+GameObject <|-down- Target
+GameObject <|-left- Player
+
+
+
+@enduml
