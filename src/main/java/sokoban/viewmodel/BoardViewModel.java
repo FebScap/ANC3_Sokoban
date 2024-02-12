@@ -16,11 +16,11 @@ public class BoardViewModel {
     }
 
     public int gridWidth() {
-        return board.getGrid().getWidth();
+        return board.getGrid().getLine();
     }
 
     public int gridHeight() {
-        return board.getGrid().getHeight();
+        return board.getGrid().getCol();
     }
 
     public GridViewModel getGridViewModel() {

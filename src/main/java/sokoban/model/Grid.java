@@ -3,33 +3,34 @@ package sokoban.model;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import sokoban.model.Cell.Cell;
 import sokoban.model.Cell.CellValue;
+import sokoban.model.Cell.Ground;
 import sokoban.model.Cell.Wall;
 
 import java.util.Arrays;
 
 public class Grid {
-    private final int width;
-    private final int height;
+    private final int line;
+    private final int col;
 
     private final Cell[][] matrix;
 
-    public Grid(int width, int height) {
-        this.width = width;
-        this.height = height;
-        matrix = new Cell[width][];
-        for (int i = 0; i < width; ++i) {
-            matrix[i] = new Cell[height];
-            for (int j = 0; j < height; ++j) {
-                matrix[i][j] = new Wall();
+    public Grid(int line, int col) {
+        this.line = line;
+        this.col = col;
+        matrix = new Cell[col][];
+        for (int i = 0; i < col; ++i) {
+            matrix[i] = new Cell[col];
+            for (int j = 0; j < col; ++j) {
+                matrix[i][j] = new Ground();
             }
         }
     }
 
-    public int getWidth() {
-        return this.width;
+    public int getLine() {
+        return this.line;
     }
-    public int getHeight() {
-        return this.height;
+    public int getCol() {
+        return this.col;
     }
 
     ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {

@@ -56,17 +56,21 @@ class CellView extends StackPane {
         imageView.fitWidthProperty().bind(widthProperty);
 
         // un clic sur la cellule permet de jouer celle-ci
-        this.setOnMouseClicked(e -> viewModel.play(CellValue.WALL));
+        this.setOnMouseClicked(this::onClickEvent);
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
 
         // quand la cellule change de valeur, adapter l'image affichée
-        viewModel.valueProperty().addListener(this::onClickEvent);
+        viewModel.valueProperty().addListener(this::onValueChanged);
     }
 
-    private void onClickEvent(ObservableValue<? extends CellValue> observableValue, CellValue oldValue, CellValue newValue) {
-        imageView.setImage(images.get(newValue));
+    private void onClickEvent(MouseEvent e) {
+        viewModel.play(CellValue.WALL);
+    }
+
+    private void onValueChanged(ObservableValue<? extends CellValue> observableValue, CellValue oldValue, CellValue newValue) {
+        setImage(imageView, newValue);
     }
 
     private void setImage(ImageView imageView, CellValue cellValue) {
