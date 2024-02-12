@@ -17,6 +17,10 @@ public class Board {
         MAX_FILLED_CELLS = width*height/2;
     }
 
+    public Grid getGrid() {
+        return this.grid;
+    }
+
     public void play(int line, int col, CellValue value) {
         grid.setCell(line, col, value);
     }
