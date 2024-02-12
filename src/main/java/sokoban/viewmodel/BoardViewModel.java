@@ -1,5 +1,8 @@
 package sokoban.viewmodel;
 
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import sokoban.model.Board;
 import sokoban.model.Grid;
 
@@ -26,5 +29,9 @@ public class BoardViewModel {
 
     public int maxFilledCells() {
         return board.maxFilledCells();
+    }
+
+    public IntegerProperty filledCellsCountProperty() {
+        return new SimpleIntegerProperty(0);
     }
 }
