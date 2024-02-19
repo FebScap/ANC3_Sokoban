@@ -21,7 +21,7 @@ public class Grid {
         for (int i = 0; i < col; ++i) {
             matrix[i] = new Cell[col];
             for (int j = 0; j < col; ++j) {
-                matrix[i][j] = new Ground();
+                matrix[i][j] = new Cell();
             }
         }
     }

@@ -23,7 +23,7 @@ class Grid {
     +getCell(int x, int y) : Cell
 }
 
-abstract class Cell {
+class Cell {
     +set() : void
     +isMultipleLayer() : Boolean
 }
@@ -31,7 +31,10 @@ abstract class Cell {
 abstract class GameObject {
 }
 
-abstract class MultipleLayer {}
+abstract class Element {
+}
+
+class ElementStack {}
 
 class Wall {
 }
@@ -45,21 +48,26 @@ class Player {
 class Target {
 }
 
+class Ground {
+}
 
 Game *-left-> "1" Board
 Board *-left-> "1" Grid
 Grid *-down-> "1" Cell
 
-MultipleLayer *-left-> "0..1" Cell
-Wall *-right-> "0..1" Cell
+ElementStack *-left-> "0..1" Cell
 
 
 
-MultipleLayer *-down-> "1..3" GameObject
+ElementStack *-down-> "1..3" GameObject
 GameObject <|-right- Box
 GameObject <|-down- Target
-GameObject <|-left- Player
+GameObject <|-down- Player
+GameObject <|-down- Ground
 
+Element *-up-> "0..1" Cell
+Element <|-left- Wall
+Element <|-right- GameObject
 
 
 @enduml

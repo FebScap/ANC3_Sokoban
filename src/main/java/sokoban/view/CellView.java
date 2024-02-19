@@ -79,7 +79,6 @@ class CellView extends StackPane {
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
-        // si on arrête le survol de la cellule, on remet l'échelle à sa valeur par défaut
         if (newVal) {
             Lighting lighting = new Lighting();
             lighting.setLight(new Light.Distant(0, 100, Color.GREY));
