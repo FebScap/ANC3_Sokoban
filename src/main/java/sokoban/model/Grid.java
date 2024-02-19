@@ -1,10 +1,7 @@
 package sokoban.model;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
-import sokoban.model.Cell.Cell;
-import sokoban.model.Cell.CellValue;
-import sokoban.model.Cell.Ground;
-import sokoban.model.Cell.Wall;
+import sokoban.model.Cell.*;
 
 import java.util.Arrays;
 
@@ -42,7 +39,7 @@ public class Grid {
     }
 
     void setCell(int line, int col, CellValue value) {
-        matrix[line][col].setValue(value);
+        matrix[line][col].setType(value);
     }
 
     public boolean isEmpty(int line, int col) {
