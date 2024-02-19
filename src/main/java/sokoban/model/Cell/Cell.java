@@ -1,31 +1,35 @@
 package sokoban.model.Cell;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import sokoban.model.Cell.MultipleLayer.MultipleLayer;
-
-public abstract class Cell {
-    private final ObjectProperty<CellValue> value;
-
-    protected Cell(ObjectProperty<CellValue> value) {
-        this.value = value;
+public class Cell {
+    private final ElementStack stack;
+    private final Wall wall = new Wall();
+    private boolean isWall;
+    public Cell() {
+        this.isWall = false;
+        this.stack = new ElementStack(CellValue.GROUND);
     }
 
-    public CellValue getValue() {
-        return this.value.getValue();
+    public void setType(CellValue value){
+        if (value.equals(CellValue.WALL)) {
+            this.isWall = true;
+        } else {
+            stack.setElement(value);
+        }
     }
 
-    public void setValue(CellValue value) {
-        this.value.setValue(value);
+    public CellValue getType() {
+        if (isWall) {
+            return CellValue.WALL;
+        } else {
+            return stack.getValue();
+        }
     }
 
-    public boolean isEmpty() {
-        return this.value.get() == CellValue.GROUND;
+    public Object getElement() {
+        if (isWall) {
+            return wall;
+        } else {
+            return stack;
+        }
     }
-
-    public ReadOnlyObjectProperty<CellValue> valueProperty() {
-        return this.value;
-    }
-
 }

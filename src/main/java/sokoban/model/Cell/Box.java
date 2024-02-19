@@ -1,8 +1,6 @@
-package sokoban.model.Cell.MultipleLayer;
+package sokoban.model.Cell;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import sokoban.model.Cell.CellValue;
 
 public class Box extends GameObject {
 

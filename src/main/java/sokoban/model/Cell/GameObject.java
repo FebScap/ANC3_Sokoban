@@ -1,9 +1,8 @@
-package sokoban.model.Cell.MultipleLayer;
+package sokoban.model.Cell;
 
 import javafx.beans.property.ObjectProperty;
-import sokoban.model.Cell.CellValue;
 
-public abstract class GameObject extends MultipleLayer {
+public abstract class GameObject extends Element {
     protected GameObject(ObjectProperty<CellValue> value) {
         super(value);
     }

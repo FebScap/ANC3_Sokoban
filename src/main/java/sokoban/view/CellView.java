@@ -1,11 +1,17 @@
 package sokoban.view;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import sokoban.model.Cell.CellValue;
 import sokoban.viewmodel.CellViewModel;
 
@@ -51,13 +57,35 @@ class CellView extends StackPane {
         imageView.fitWidthProperty().bind(widthProperty);
 
         // un clic sur la cellule permet de jouer celle-ci
-        this.setOnMouseClicked(e -> viewModel.play(CellValue.WALL));
+        this.setOnMouseClicked(this::onClickEvent);
+
+        // gère le survol de la cellule avec la souris
+        hoverProperty().addListener(this::hoverChanged);
 
         // quand la cellule change de valeur, adapter l'image affichée
-        viewModel.valueProperty().addListener((obs, old, newVal) -> setImage(imageView, newVal));
+        viewModel.valueProperty().addListener(this::onValueChanged);
+    }
+
+    private void onClickEvent(MouseEvent e) {
+        viewModel.play(CellValue.WALL);
+    }
+
+    private void onValueChanged(ObservableValue<? extends CellValue> observableValue, CellValue oldValue, CellValue newValue) {
+        setImage(imageView, newValue);
     }
 
     private void setImage(ImageView imageView, CellValue cellValue) {
         imageView.setImage(images.get(cellValue));
     }
+
+    private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
+        if (newVal) {
+            Lighting lighting = new Lighting();
+            lighting.setLight(new Light.Distant(0, 100, Color.GREY));
+            imageView.setEffect(lighting);
+        } else {
+            imageView.setEffect(null);
+        }
+    }
+
 }

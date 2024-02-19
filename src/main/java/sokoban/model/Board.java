@@ -12,9 +12,9 @@ public class Board {
         this.grid = new Grid(10, 15);
         MAX_FILLED_CELLS = 75;
     }
-    public Board(int width, int height) {
-        this.grid = new Grid(width, height);
-        MAX_FILLED_CELLS = width*height/2;
+    public Board(int line, int col) {
+        this.grid = new Grid(line, col);
+        MAX_FILLED_CELLS = line*col/2;
     }
 
     public Grid getGrid() {
