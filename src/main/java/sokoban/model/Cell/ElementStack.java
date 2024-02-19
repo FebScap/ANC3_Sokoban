@@ -7,9 +7,6 @@ import java.util.List;
 
 public class ElementStack {
     private CellValue value;
-
-
-
     private final List<GameObject> elements = new ArrayList<GameObject>();
     public ElementStack(CellValue value) {
         this.value = value;

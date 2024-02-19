@@ -9,20 +9,4 @@ public abstract class Element {
     public Element(ObjectProperty<CellValue> value) {
         this.value = value;
     }
-
-    public CellValue getValue() {
-        return this.value.getValue();
-    }
-
-    public boolean isEmpty() {
-        return this.value.get() == CellValue.GROUND;
-    }
-
-    public void setValue(CellValue value) {
-        this.value.setValue(value);
-    }
-
-    public ReadOnlyObjectProperty<CellValue> valueProperty() {
-        return this.value;
-    }
 }
