@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
+import sokoban.viewmodel.MenuViewModel;
 
 import java.util.Objects;
 
@@ -48,6 +49,7 @@ public class BoardView extends BorderPane {
         stage.setTitle("Sokoban");
 
         createGrid();
+        createMenu();
         createHeader();
     }
 
@@ -75,5 +77,22 @@ public class BoardView extends BorderPane {
         gridView.maxWidthProperty().bind(gridWidth);
 
         setCenter(gridView);
+    }
+
+    private void createMenu() {
+        DoubleBinding menuWidth = (DoubleBinding) Bindings.min(
+                widthProperty().subtract(700),
+                heightProperty().subtract(headerBox.heightProperty())
+        );
+
+        MenuView menuView = new MenuView(boardViewModel.getMenuViewModel(), menuWidth);
+
+        // Grille carrée
+        menuView.minHeightProperty().bind(menuWidth);
+        menuView.minWidthProperty().bind(menuWidth);
+        menuView.maxHeightProperty().bind(menuWidth);
+        menuView.maxWidthProperty().bind(menuWidth);
+
+        setLeft(menuView);
     }
 }

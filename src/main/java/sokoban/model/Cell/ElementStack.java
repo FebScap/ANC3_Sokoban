@@ -15,19 +15,19 @@ public class ElementStack {
     public void setElement(CellValue value) {
         if (!value.equals(CellValue.WALL)) {
             this.value = value;
-            elements.clear();
-            elements.add(new Ground());
+            this.elements.clear();
+            this.elements.add(new Ground());
             switch (value) {
-                case PLAYER -> elements.add(new Player());
-                case TARGET -> elements.add(new Target());
-                case BOX -> elements.add(new Box());
+                case PLAYER -> this.elements.add(new Player());
+                case TARGET -> this.elements.add(new Target());
+                case BOX -> this.elements.add(new Box());
                 case PLAYER_TARGET -> {
-                    elements.add(new Player());
-                    elements.add(new Target());
+                    this.elements.add(new Player());
+                    this.elements.add(new Target());
                 }
                 case BOX_TARGET -> {
-                    elements.add(new Box());
-                    elements.add(new Target());
+                    this.elements.add(new Box());
+                    this.elements.add(new Target());
                 }
             }
         } else {
