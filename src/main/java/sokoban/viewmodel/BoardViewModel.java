@@ -8,11 +8,13 @@ import sokoban.model.Grid;
 
 public class BoardViewModel {
     private final GridViewModel gridViewModel;
+    private final MenuViewModel menuViewModel;
     private final Board board;
 
     public BoardViewModel(Board board) {
         this.board = board;
         gridViewModel = new GridViewModel(board);
+        menuViewModel = new MenuViewModel(board);
     }
 
     public int gridWidth() {
@@ -26,6 +28,9 @@ public class BoardViewModel {
     public GridViewModel getGridViewModel() {
         return gridViewModel;
     }
+    public MenuViewModel getMenuViewModel() {
+        return menuViewModel;
+    }
 
     public int maxFilledCells() {
         return board.maxFilledCells();
@@ -34,4 +39,6 @@ public class BoardViewModel {
     public IntegerProperty filledCellsCountProperty() {
         return new SimpleIntegerProperty(0);
     }
+
+
 }

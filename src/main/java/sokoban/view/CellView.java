@@ -58,6 +58,7 @@ class CellView extends StackPane {
 
         // un clic sur la cellule permet de jouer celle-ci
         this.setOnMouseClicked(this::onClickEvent);
+        // TODO : startFullDrag();
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
@@ -69,6 +70,7 @@ class CellView extends StackPane {
     private void onClickEvent(MouseEvent e) {
         viewModel.play(CellValue.WALL);
     }
+
 
     private void onValueChanged(ObservableValue<? extends CellValue> observableValue, CellValue oldValue, CellValue newValue) {
         setImage(imageView, newValue);
