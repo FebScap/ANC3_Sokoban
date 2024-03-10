@@ -40,6 +40,8 @@ public class BoardViewModel {
     public LongBinding filledCellsCountProperty() {
         return board.getGrid().filledCellsCountProperty();
     }
-
+    public LongBinding filledPlayerCountProperty() {return board.getGrid().filledPlayerCountProperty();}
+    public LongBinding filledTargetsCountProperty() {return board.getGrid().filledTargetsCountProperty();}
+    public LongBinding filledBoxsCountProperty() {return board.getGrid().filledBoxsCountProperty();}
 
 }
