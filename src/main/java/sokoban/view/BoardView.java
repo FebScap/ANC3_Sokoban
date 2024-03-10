@@ -5,8 +5,12 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.MenuViewModel;
@@ -24,7 +28,9 @@ public class BoardView extends BorderPane {
 
     // Composants principaux
     private final Label headerLabel = new Label("");
-    private final HBox headerBox = new HBox();
+    private final VBox headerBox = new VBox();
+    private final MenuBar menuBar = new MenuBar();
+    private final Menu menuFile = new Menu("File");
 
     public BoardView(Stage primaryStage, BoardViewModel boardViewModel) {
         this.boardViewModel = boardViewModel;
@@ -39,6 +45,7 @@ public class BoardView extends BorderPane {
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
         String cssFile = Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm();
         scene.getStylesheets().add(cssFile);
+
         stage.setScene(scene);
         stage.show();
         stage.setMinHeight(stage.getHeight());
@@ -54,9 +61,32 @@ public class BoardView extends BorderPane {
     }
 
     private void createHeader() {
+        MenuItem menuItemNew = new MenuItem("New..."),
+                menuItemOpen = new MenuItem("Open..."),
+                menuItemSave = new MenuItem("Save As..."),
+                menuItemExit = new MenuItem("Exit");
+        menuFile.getItems().addAll(menuItemNew, menuItemOpen, menuItemSave, menuItemExit);
+
+        //LISTENER DU MENU
+        menuItemNew.setOnAction(e -> {
+            //TODO : Nouveau fichier
+        });
+        menuItemOpen.setOnAction(e -> {
+            //TODO : Open File
+        });
+        menuItemSave.setOnAction(e -> {
+            //TODO : Sauvegarder
+        });
+        menuItemExit.setOnAction(e -> {
+            //TODO : Quitter
+        });
+        menuBar.getMenus().add(menuFile);
+
         headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
                 .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
         headerLabel.getStyleClass().add("header");
+
+        headerBox.getChildren().add(menuBar);
         headerBox.getChildren().add(headerLabel);
         headerBox.setAlignment(Pos.CENTER);
         setTop(headerBox);
