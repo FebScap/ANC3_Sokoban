@@ -8,9 +8,9 @@ public class Board {
     private final int MAX_FILLED_CELLS;
     private static final int NB_OF_PLAYER = 1;
 
-    private static final int MIN_OF_BOX = 1;
+    private static final int MIN_OF_BOX = 0;
 
-    private static final int MIN_OF_TARGET = 1;
+    private static final int MIN_OF_TARGET = 0;
 
     private final BooleanBinding isFull;
     private final BooleanBinding validatePlayer;
