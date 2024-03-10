@@ -21,7 +21,9 @@ public class Board {
     }
 
     public void play(int line, int col, CellValue value) {
-        grid.setCell(line, col, value);
+        if (!isFull() || grid.getValue(line, col) != CellValue.GROUND) {
+            grid.play(line, col, value);
+        }
     }
 
     public int maxFilledCells() {
@@ -40,3 +42,4 @@ public class Board {
         return grid.isEmpty(line, col);
     }
 }
+

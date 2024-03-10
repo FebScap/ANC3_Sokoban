@@ -32,6 +32,14 @@ public class Grid {
                 .filter(cell -> !cell.isEmpty())
                 .count());
 
+        System.out.println(filledCellsCount);
+
+    }
+
+    void play(int line, int col, CellValue value) {
+        this.setCell(line, col, value);
+        //matrix[line][col].setType(value);
+        filledCellsCount.invalidate();
     }
 
     public int getLine() {
