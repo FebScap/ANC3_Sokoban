@@ -62,13 +62,20 @@ public class BoardViewModel {
             //TODO : Corriger la création de la nouvelle scene (out of bound) + validations
         });
     }
-    public void Exit() {
-        Platform.exit();
-        System.exit(0);
-        //TODO : Demande de sauvegarde si fichier modifié
+    public void Exit(Stage stage) {
+        int result = DialogWindow.doSave();
+        if (result == 0) {
+           if (Save(stage)) {
+               Platform.exit();
+               System.exit(0);
+           }
+        } else if (result == 1) {
+            Platform.exit();
+            System.exit(0);
+        }
     }
 
-    public void Save(Stage stage) {
+    public boolean Save(Stage stage) {
         FileChooser choose = new FileChooser();
         choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
         choose.setInitialFileName("level.xsb");
@@ -97,6 +104,7 @@ public class BoardViewModel {
                 try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(file), StandardCharsets.UTF_8))) {
                     writer.write(str.toString());
+                    return true;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -104,6 +112,7 @@ public class BoardViewModel {
                 throw new RuntimeException(file.getName() + " has no valid file-extension.");
             }
         }
+        return false;
     }
 
     public void OpenFile() {

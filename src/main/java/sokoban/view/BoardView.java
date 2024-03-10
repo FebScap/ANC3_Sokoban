@@ -80,7 +80,7 @@ public class BoardView extends BorderPane {
             boardViewModel.Save(stage);
         });
         menuItemExit.setOnAction(e -> {
-            boardViewModel.Exit();
+            boardViewModel.Exit(stage);
         });
         menuBar.getMenus().add(menuFile);
 

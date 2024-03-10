@@ -12,6 +12,7 @@ import java.util.Optional;
 public class DialogWindow {
     /**
      * Ouvre une dialog window pour créer un nouveau fichier
+     *
      * @return width and height
      */
     public static Optional<Pair<String, String>> NewFile() {
@@ -55,9 +56,36 @@ public class DialogWindow {
             return null;
         });
 
-        Optional<Pair<String, String>> result = dialog.showAndWait();
+        return dialog.showAndWait();
+    }
 
+    /**
+     * Ouvre une dialog window qui demande si l'utilisateur souhaite sauvegarder
+     *
+     * @return
+     * 0 if selected Save;
+     * 1 if selected Don't Save;
+     * 2 if cancelled operation;
+     */
+    public static int doSave() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Save");
+        alert.setHeaderText("Your board has been modified.");
+        alert.setContentText("Do you want to save your changes?");
 
-        return result;
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeYes) {
+            return 0;
+        } else if (result.get() == buttonTypeNo) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 }
