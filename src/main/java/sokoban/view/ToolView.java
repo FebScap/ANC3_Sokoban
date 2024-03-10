@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import sokoban.model.Cell.Cell;
 import sokoban.model.Cell.CellValue;
 import sokoban.viewmodel.CellViewModel;
 import sokoban.viewmodel.ToolViewModel;
@@ -26,9 +27,12 @@ public class ToolView extends StackPane {
 
     private final ImageView imageView = new ImageView();
 
+    private final CellValue current;
+
     ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = toolViewModel;
         this.widthProperty = cellWidthProperty;
+        this.current = value;
 
         setAlignment(Pos.CENTER);
         imageView.setImage(images.get(value));
@@ -49,6 +53,7 @@ public class ToolView extends StackPane {
     }
 
     private void onClickEvent(MouseEvent mouseEvent) {
+        MenuView.setCellValue(current);
     }
 
     private void layoutControls() {
