@@ -1,5 +1,7 @@
 package sokoban.model;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import sokoban.model.Cell.*;
 
@@ -11,16 +13,25 @@ public class Grid {
 
     private final Cell[][] matrix;
 
+    private final LongBinding filledCellsCount;
+
     public Grid(int line, int col) {
         this.line = line;
         this.col = col;
-        matrix = new Cell[col][];
+        matrix = new Cell[col][line];
         for (int i = 0; i < col; ++i) {
             matrix[i] = new Cell[col];
             for (int j = 0; j < col; ++j) {
                 matrix[i][j] = new Cell();
             }
         }
+
+        filledCellsCount = Bindings.createLongBinding(() -> Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell -> !cell.isEmpty()) //modifier pour tout sauf ground
+                .count());
+
     }
 
     public int getLine() {
@@ -45,4 +56,6 @@ public class Grid {
     public boolean isEmpty(int line, int col) {
         return matrix[line][col].isEmpty();
     }
+
+    public LongBinding filledCellsCountProperty() {return filledCellsCount;}
 }
