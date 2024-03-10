@@ -34,12 +34,12 @@ class CellView extends StackPane {
 
     private final ImageView imageView = new ImageView();
 
-    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty) {
+    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = cellViewModel;
         this.widthProperty = cellWidthProperty;
 
         setAlignment(Pos.CENTER);
-        setImage(imageView, CellValue.GROUND);
+        setImage(imageView, value);
 
         layoutControls();
         configureBindings();
