@@ -12,7 +12,7 @@ public class SokobanApp extends Application  {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.getIcons().add(new Image("player.png"));
-        Board board = new Board();
+        Board board = new Board(10,15);
         BoardViewModel vm = new BoardViewModel(board);
         new BoardView(primaryStage, vm);
     }
