@@ -93,10 +93,10 @@ public class BoardView extends BorderPane {
         errorPlayer.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledPlayerCountProperty(), Board.getNB_OF_PLAYER()));
         errorPlayer.managedProperty().bind(errorPlayer.visibleProperty());
 
-        errorBox.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledBoxsCountProperty(), Board.getMIN_OF_BOX()));
+        errorBox.visibleProperty().bind(Bindings.equal(boardViewModel.filledBoxsCountProperty(), Board.getMIN_OF_BOX()));
         errorBox.managedProperty().bind(errorBox.visibleProperty());
 
-        errorTarget.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledTargetsCountProperty(), Board.getMIN_OF_TARGET()));
+        errorTarget.visibleProperty().bind(Bindings.equal(boardViewModel.filledTargetsCountProperty(), Board.getMIN_OF_TARGET()));
         errorTarget.managedProperty().bind(errorTarget.visibleProperty());
 
         errorBoxsTargets.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledBoxsCountProperty(), boardViewModel.filledTargetsCountProperty()));
