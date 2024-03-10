@@ -1,10 +1,22 @@
 package sokoban.viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 import sokoban.model.Board;
+import sokoban.model.Cell.Cell;
+import sokoban.model.Cell.CellValue;
 import sokoban.model.Grid;
+import sokoban.utils.DialogWindow;
+import sokoban.view.BoardView;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 public class BoardViewModel {
     private final GridViewModel gridViewModel;
@@ -41,4 +53,60 @@ public class BoardViewModel {
     }
 
 
+    public void NewItem(Stage stage) {
+        Optional<Pair<String, String>> newFile = DialogWindow.NewFile();
+        newFile.ifPresent(widthHeight -> {
+            Board newBoard = new Board(Integer.parseInt(widthHeight.getKey()),Integer.parseInt(widthHeight.getValue()));
+            BoardViewModel vm = new BoardViewModel(newBoard);
+            new BoardView(stage, vm);
+            //TODO : Corriger la création de la nouvelle scene (out of bound) + validations
+        });
+    }
+    public void Exit() {
+        Platform.exit();
+        System.exit(0);
+        //TODO : Demande de sauvegarde si fichier modifié
+    }
+
+    public void Save(Stage stage) {
+        FileChooser choose = new FileChooser();
+        choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
+        choose.setInitialFileName("level.xsb");
+        choose.setInitialDirectory(new File("src/main/resources"));
+        File file = choose.showSaveDialog(stage);
+
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < board.getGrid().getLine(); i++) {
+            for (int j = 0; j < board.getGrid().getCol(); j++) {
+                CellValue value = gridViewModel.getCellViewModel(i, j).valueProperty().getValue();
+                switch (value) {
+                    case GROUND -> str.append(' ');
+                    case WALL -> str.append('#');
+                    case TARGET -> str.append('.');
+                    case BOX -> str.append('$');
+                    case BOX_TARGET -> str.append('*');
+                    case PLAYER -> str.append('@');
+                    case PLAYER_TARGET -> str.append('+');
+                }
+                if (j == board.getGrid().getCol() - 1)
+                    str.append('\n');
+            }
+        }
+        if (file != null) {
+            if (file.getName().endsWith(".xsb")) {
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(file), StandardCharsets.UTF_8))) {
+                    writer.write(str.toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                throw new RuntimeException(file.getName() + " has no valid file-extension.");
+            }
+        }
+    }
+
+    public void OpenFile() {
+        //TODO : Open File
+    }
 }

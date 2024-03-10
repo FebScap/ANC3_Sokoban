@@ -1,5 +1,6 @@
 package sokoban.view;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
@@ -9,16 +10,17 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import sokoban.model.Board;
+import sokoban.utils.DialogWindow;
 import sokoban.viewmodel.BoardViewModel;
-import sokoban.viewmodel.MenuViewModel;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class BoardView extends BorderPane {
-
     // ViewModel
     private final BoardViewModel boardViewModel;
 
@@ -57,10 +59,10 @@ public class BoardView extends BorderPane {
 
         createGrid();
         createMenu();
-        createHeader();
+        createHeader(stage);
     }
 
-    private void createHeader() {
+    private void createHeader(Stage stage) {
         MenuItem menuItemNew = new MenuItem("New..."),
                 menuItemOpen = new MenuItem("Open..."),
                 menuItemSave = new MenuItem("Save As..."),
@@ -69,16 +71,16 @@ public class BoardView extends BorderPane {
 
         //LISTENER DU MENU
         menuItemNew.setOnAction(e -> {
-            //TODO : Nouveau fichier
+            boardViewModel.NewItem(stage);
         });
         menuItemOpen.setOnAction(e -> {
-            //TODO : Open File
+            boardViewModel.OpenFile();
         });
         menuItemSave.setOnAction(e -> {
-            //TODO : Sauvegarder
+            boardViewModel.Save(stage);
         });
         menuItemExit.setOnAction(e -> {
-            //TODO : Quitter
+            boardViewModel.Exit();
         });
         menuBar.getMenus().add(menuFile);
 
