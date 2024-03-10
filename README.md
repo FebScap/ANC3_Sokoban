@@ -4,9 +4,9 @@
 
 ### Liste des bugs connus
 
-* bug 1
-* bug 2
-* ...
+* Problème au niveau du stack d'images, Box+Target ou Player+Target
+* Problème responsivité 
+* Drag pas implémenté
 
 ### Liste des fonctionnalités supplémentaires
 
