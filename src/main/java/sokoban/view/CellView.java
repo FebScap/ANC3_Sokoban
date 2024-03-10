@@ -9,6 +9,7 @@ import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -68,7 +69,12 @@ class CellView extends StackPane {
     }
 
     private void onClickEvent(MouseEvent e) {
-        viewModel.play(CellValue.WALL);
+        if (e.getButton() == MouseButton.PRIMARY) {
+            viewModel.play(CellValue.WALL);
+        }
+        if (e.getButton() == MouseButton.SECONDARY){
+            viewModel.play(CellValue.GROUND);
+        }
     }
 
 
