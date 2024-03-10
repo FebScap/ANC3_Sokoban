@@ -11,7 +11,7 @@ class GridView extends GridPane {
     private final int DEFAULT_GRID_LINE = 10;
     private final int DEFAULT_GRID_COL = 15;
 
-    GridView(GridViewModel gridViewModel, DoubleBinding gridWidth) {
+    GridView(GridViewModel gridViewModel, DoubleBinding gridWidth, int line, int col) {
         // Pour visualiser les limites de la grille
         // setStyle("-fx-background-color: lightgrey");
         setPadding(new Insets(PADDING));
