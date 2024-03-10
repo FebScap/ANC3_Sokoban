@@ -147,7 +147,10 @@ public class BoardView extends BorderPane {
                 heightProperty().subtract(headerBox.heightProperty())
         );
 
-        GridView gridView = new GridView(boardViewModel.getGridViewModel(), gridWidth);
+        GridView gridView = new GridView(boardViewModel.getGridViewModel(),
+                gridWidth,
+                boardViewModel.gridWidth(),
+                boardViewModel.gridHeight());
 
         // Grille carrée
         gridView.minHeightProperty().bind(gridWidth);
