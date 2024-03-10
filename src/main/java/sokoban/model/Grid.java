@@ -14,6 +14,10 @@ public class Grid {
     private final Cell[][] matrix;
 
     private final LongBinding filledCellsCount;
+    private final LongBinding filledPlayerCount;
+    private final LongBinding filledBoxsCount;
+    private final LongBinding filledTargetsCount;
+
 
     public Grid(int line, int col) {
         this.line = line;
@@ -32,6 +36,32 @@ public class Grid {
                 .filter(cell -> !cell.isEmpty())
                 .count());
 
+        filledPlayerCount = Bindings.createLongBinding(() -> Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell -> cell.getValue() == CellValue.PLAYER)
+                .count());
+
+        filledBoxsCount = Bindings.createLongBinding(() -> Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell -> cell.getValue() == CellValue.BOX)
+                .count());
+
+        filledTargetsCount = Bindings.createLongBinding(() -> Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell -> cell.getValue() == CellValue.TARGET)
+                .count());
+
+    }
+
+    void play(int line, int col, CellValue value) {
+        this.setCell(line, col, value);
+        filledCellsCount.invalidate();
+        filledPlayerCount.invalidate();
+        filledBoxsCount.invalidate();
+        filledTargetsCount.invalidate();
     }
 
     public int getLine() {
@@ -58,4 +88,8 @@ public class Grid {
     }
 
     public LongBinding filledCellsCountProperty() {return filledCellsCount;}
+    public LongBinding filledPlayerCountProperty() {return filledPlayerCount;}
+    public LongBinding filledTargetsCountProperty() {return filledTargetsCount;}
+    public LongBinding filledBoxsCountProperty() {return filledBoxsCount;}
+
 }
