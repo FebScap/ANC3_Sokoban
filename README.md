@@ -5,8 +5,12 @@
 ### Liste des bugs connus
 
 * Problème au niveau du stack d'images, Box+Target ou Player+Target
-* Problème responsivité 
+* Problème de responsivité 
 * Drag pas implémenté
+* Vérification sur la création d'un nouveau board manquantes
+* Vérification sur l'ouverture d'un fichier manquantes
+* Demande de sauvegarde et vérification si le fichier à été modifié manquantes
+* Le menu ne se met pas en surbrillance bleu
 
 ### Liste des fonctionnalités supplémentaires
 
