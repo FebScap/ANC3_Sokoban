@@ -10,6 +10,7 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -60,6 +61,11 @@ class CellView extends StackPane {
         // un clic sur la cellule permet de jouer celle-ci
         this.setOnMouseClicked(this::onClickEvent);
         // TODO : startFullDrag();
+        //this.setOnMouseDragged(this::onDragEvent);
+        //this.setOnMouseDragReleased(this::onDragEvent);
+        //this.setOnMouseExited(this::onDragEvent);
+        //this.setOnMouseReleased(this::onDragEvent);
+
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
@@ -70,10 +76,21 @@ class CellView extends StackPane {
 
     private void onClickEvent(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
-            viewModel.play(CellValue.WALL);
+            viewModel.play(MenuView.cellValue);
         }
         if (e.getButton() == MouseButton.SECONDARY){
             viewModel.play(CellValue.GROUND);
+        }
+    }
+
+    private void onDragEvent(MouseEvent e) {
+        //System.out.println("drag");
+        //System.out.println(e.getButton());
+        //System.out.println(e.getButton() == MouseButton.PRIMARY);
+        //System.out.println(viewModel.getLine());
+        //System.out.println(viewModel.getCol());
+        if (e.getButton() == MouseButton.PRIMARY) {
+            viewModel.play(MenuView.cellValue);
         }
     }
 

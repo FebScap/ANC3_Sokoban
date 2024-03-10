@@ -13,6 +13,8 @@ import java.util.List;
 public class MenuView extends GridPane {
     private static final int PADDING = 20;
 
+    public static CellValue cellValue = CellValue.WALL;
+
     private final CellValue[] VALUES = new CellValue[]{
             CellValue.GROUND,
             CellValue.TARGET,
@@ -34,5 +36,9 @@ public class MenuView extends GridPane {
             ToolView toolView = new ToolView(menuViewModel.getToolViewModel(i), cellWidth, VALUES[i]);
             add(toolView, 1, i); // lignes/colonnes inversées dans gridpane
         }
+    }
+
+    public static void setCellValue(CellValue cellValue) {
+        MenuView.cellValue = cellValue;
     }
 }

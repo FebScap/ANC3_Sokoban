@@ -29,7 +29,7 @@ public class Grid {
         filledCellsCount = Bindings.createLongBinding(() -> Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
-                .filter(cell -> !cell.isEmpty()) //modifier pour tout sauf ground
+                .filter(cell -> !cell.isEmpty())
                 .count());
 
     }
