@@ -2,6 +2,7 @@ package sokoban.viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanExpression;
+import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.stage.FileChooser;
@@ -48,10 +49,12 @@ public class BoardViewModel {
         return board.maxFilledCells();
     }
 
-    public IntegerProperty filledCellsCountProperty() {
-        return new SimpleIntegerProperty(0);
+    public LongBinding filledCellsCountProperty() {
+        return board.getGrid().filledCellsCountProperty();
     }
-
+    public LongBinding filledPlayerCountProperty() {return board.getGrid().filledPlayerCountProperty();}
+    public LongBinding filledTargetsCountProperty() {return board.getGrid().filledTargetsCountProperty();}
+    public LongBinding filledBoxsCountProperty() {return board.getGrid().filledBoxsCountProperty();}
 
     public void NewItem(Stage stage) {
         Optional<Pair<String, String>> newFile = DialogWindow.NewFile();
