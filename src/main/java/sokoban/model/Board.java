@@ -4,6 +4,11 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import sokoban.model.Cell.CellValue;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+
 public class Board {
     private final int MAX_FILLED_CELLS;
     private static final int NB_OF_PLAYER = 1;
@@ -22,7 +27,7 @@ public class Board {
         this.grid = new Grid(line, col);
         this.MAX_FILLED_CELLS = line*col/2;
         isFull = grid.filledCellsCountProperty().isEqualTo(this.MAX_FILLED_CELLS);
-        validatePlayer = grid.filledPlayerCountProperty().isEqualTo(this.NB_OF_PLAYER);
+        validatePlayer = grid.filledPlayerCountProperty().isEqualTo(NB_OF_PLAYER);
     }
 
     public Grid getGrid() {

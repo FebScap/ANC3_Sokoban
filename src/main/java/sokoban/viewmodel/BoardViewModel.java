@@ -5,6 +5,8 @@ import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Button;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -17,6 +19,8 @@ import sokoban.view.BoardView;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 
 public class BoardViewModel {
@@ -62,7 +66,7 @@ public class BoardViewModel {
             Board newBoard = new Board(Integer.parseInt(widthHeight.getKey()),Integer.parseInt(widthHeight.getValue()));
             BoardViewModel vm = new BoardViewModel(newBoard);
             new BoardView(stage, vm);
-            //TODO : Corriger la création de la nouvelle scene (out of bound) + validations
+            //TODO : validations
         });
     }
     public void Exit(Stage stage) {
@@ -118,7 +122,21 @@ public class BoardViewModel {
         return false;
     }
 
-    public void OpenFile() {
-        //TODO : Open File
+    public void OpenFile(Stage stage) {
+        FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(new File("src/main/resources"));
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
+        File file = chooser.showOpenDialog(stage);
+        try {
+            List<String> lines = Files.readAllLines(file.toPath());
+            int line = lines.size();
+            int col = lines.get(0).length();
+
+            Board newBoard = new Board(line, col);
+            BoardViewModel vm = new BoardViewModel(newBoard);
+            new BoardView(stage, vm, file);
+        } catch (IOException e) {
+            throw new RuntimeException("Erreur lors de la lecture du fichier");
+        }
     }
 }

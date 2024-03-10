@@ -21,6 +21,7 @@ import sokoban.model.Board;
 import sokoban.utils.DialogWindow;
 import sokoban.viewmodel.BoardViewModel;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,12 +47,17 @@ public class BoardView extends BorderPane {
 
     public BoardView(Stage primaryStage, BoardViewModel boardViewModel) {
         this.boardViewModel = boardViewModel;
-        start(primaryStage);
+        start(primaryStage, null);
     }
 
-    private void start(Stage stage) {
+    public BoardView(Stage primaryStage, BoardViewModel boardViewModel, File file) {
+        this.boardViewModel = boardViewModel;
+        start(primaryStage, file);
+    }
+
+    private void start(Stage stage, File file) {
         // Mise en place des composants principaux
-        configMainComponents(stage);
+        configMainComponents(stage, file);
 
         // Mise en place de la scène et affichage de la fenêtre
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
@@ -64,10 +70,9 @@ public class BoardView extends BorderPane {
         stage.setMinWidth(stage.getWidth());
     }
 
-    private void configMainComponents(Stage stage) {
+    private void configMainComponents(Stage stage, File file) {
         stage.setTitle("Sokoban");
-
-        createGrid();
+        createGrid(file);
         createMenu();
         createHeader(stage);
     }
@@ -84,7 +89,7 @@ public class BoardView extends BorderPane {
             boardViewModel.NewItem(stage);
         });
         menuItemOpen.setOnAction(e -> {
-            boardViewModel.OpenFile();
+            boardViewModel.OpenFile(stage);
         });
         menuItemSave.setOnAction(e -> {
             boardViewModel.Save(stage);
@@ -141,16 +146,23 @@ public class BoardView extends BorderPane {
 
     }
 
-    private void createGrid() {
+    private void createGrid(File file) {
         DoubleBinding gridWidth = (DoubleBinding) Bindings.min(
                 widthProperty(),
                 heightProperty().subtract(headerBox.heightProperty())
         );
 
-        GridView gridView = new GridView(boardViewModel.getGridViewModel(),
-                gridWidth,
-                boardViewModel.gridWidth(),
-                boardViewModel.gridHeight());
+        GridView gridView;
+        if (file == null) {
+            gridView = new GridView(boardViewModel.getGridViewModel(),
+                    gridWidth,
+                    boardViewModel.gridWidth(),
+                    boardViewModel.gridHeight());
+        } else {
+            gridView = new GridView(boardViewModel.getGridViewModel(),
+                    gridWidth,
+                    file);
+        }
 
         // Grille carrée
         gridView.minHeightProperty().bind(gridWidth);
