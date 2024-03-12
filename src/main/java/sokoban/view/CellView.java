@@ -1,17 +1,14 @@
 package sokoban.view;
 
-import javafx.beans.Observable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
@@ -35,6 +32,9 @@ class CellView extends StackPane {
     private final DoubleBinding widthProperty;
 
     private final ImageView imageView = new ImageView();
+    private final ImageView imageViewMid = new ImageView();
+    private final ImageView imageViewTop = new ImageView();
+
 
     CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = cellViewModel;
@@ -49,8 +49,10 @@ class CellView extends StackPane {
 
     private void layoutControls() {
         imageView.setPreserveRatio(true);
+        imageViewMid.setPreserveRatio(true);
+        imageViewTop.setPreserveRatio(true);
 
-        getChildren().addAll(imageView);
+        getChildren().addAll(imageView, imageViewMid, imageViewTop);
     }
 
     private void configureBindings() {
@@ -59,6 +61,9 @@ class CellView extends StackPane {
 
         // adapte la largeur de l'image à celle de la cellule multipliée par l'échelle
         imageView.fitWidthProperty().bind(widthProperty);
+        imageViewMid.fitWidthProperty().bind(widthProperty);
+        imageViewTop.fitWidthProperty().bind(widthProperty);
+
 
         // un clic sur la cellule permet de jouer celle-ci
         this.setOnMouseClicked(this::onClickEvent);
@@ -97,7 +102,22 @@ class CellView extends StackPane {
     }
 
     private void setImage(ImageView imageView, CellValue cellValue) {
-        imageView.setImage(images.get(cellValue));
+        switch (cellValue) {
+            case GROUND, WALL :
+                imageView.setImage(images.get(cellValue));
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(cellValue));
+                break;
+            case PLAYER, TARGET, BOX :
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(cellValue));
+                break;
+            case PLAYER_TARGET, BOX_TARGET :
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(CellValue.TARGET));
+                break;
+        }
+
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
