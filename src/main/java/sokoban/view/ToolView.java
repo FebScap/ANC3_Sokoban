@@ -2,15 +2,14 @@ package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import sokoban.model.Cell.Cell;
+import javafx.scene.layout.StackPane;
 import sokoban.model.Cell.CellValue;
-import sokoban.viewmodel.CellViewModel;
 import sokoban.viewmodel.ToolViewModel;
 
 import java.util.HashMap;
@@ -35,7 +34,7 @@ public class ToolView extends StackPane {
         this.viewModel = toolViewModel;
         this.widthProperty = cellWidthProperty;
         this.current = value;
-        
+
 
         setAlignment(Pos.CENTER);
         imageView.setImage(images.get(value));

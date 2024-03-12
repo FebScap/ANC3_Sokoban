@@ -1,19 +1,12 @@
 package sokoban.viewmodel;
 
 import javafx.application.Platform;
-import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Button;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import sokoban.model.Board;
-import sokoban.model.Cell.Cell;
 import sokoban.model.Cell.CellValue;
-import sokoban.model.Grid;
 import sokoban.utils.DialogWindow;
 import sokoban.view.BoardView;
 
@@ -60,7 +53,7 @@ public class BoardViewModel {
     public LongBinding filledTargetsCountProperty() {return board.getGrid().filledTargetsCountProperty();}
     public LongBinding filledBoxsCountProperty() {return board.getGrid().filledBoxsCountProperty();}
 
-    public void NewItem(Stage stage) {
+    public void newItem(Stage stage) {
         Optional<Pair<String, String>> newFile = DialogWindow.NewFile();
         newFile.ifPresent(widthHeight -> {
             Board newBoard = new Board(Integer.parseInt(widthHeight.getKey()),Integer.parseInt(widthHeight.getValue()));
@@ -69,10 +62,10 @@ public class BoardViewModel {
             //TODO : validations
         });
     }
-    public void Exit(Stage stage) {
+    public void exit(Stage stage) {
         int result = DialogWindow.doSave();
         if (result == 0) {
-           if (Save(stage)) {
+           if (save(stage)) {
                Platform.exit();
                System.exit(0);
            }
@@ -82,7 +75,7 @@ public class BoardViewModel {
         }
     }
 
-    public boolean Save(Stage stage) {
+    public boolean save(Stage stage) {
         FileChooser choose = new FileChooser();
         choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
         choose.setInitialFileName("level.xsb");
@@ -122,7 +115,7 @@ public class BoardViewModel {
         return false;
     }
 
-    public void OpenFile(Stage stage) {
+    public void openFile(Stage stage) {
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(new File("src/main/resources"));
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
