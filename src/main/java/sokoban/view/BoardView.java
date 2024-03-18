@@ -30,8 +30,8 @@ public class BoardView extends BorderPane {
     private final BoardViewModel boardViewModel;
 
     // Constantes de mise en page
-    private static final int SCENE_MIN_WIDTH = 420;
-    private static final int SCENE_MIN_HEIGHT = 420;
+    private static final int SCENE_MIN_WIDTH = 800;
+    private static final int SCENE_MIN_HEIGHT = 600;
 
     // Composants principaux
     private final Label headerLabel = new Label("");
@@ -180,12 +180,8 @@ public class BoardView extends BorderPane {
         );
 
         MenuView menuView = new MenuView(boardViewModel.getMenuViewModel(), menuWidth);
-
-        // Grille carrée
-        menuView.minHeightProperty().bind(menuWidth);
-        menuView.minWidthProperty().bind(menuWidth);
-        menuView.maxHeightProperty().bind(menuWidth);
-        menuView.maxWidthProperty().bind(menuWidth);
+        menuView.maxWidthProperty().bind(widthProperty());
+        menuView.maxHeightProperty().bind(heightProperty().subtract(headerBox.heightProperty()));
 
         setLeft(menuView);
     }
