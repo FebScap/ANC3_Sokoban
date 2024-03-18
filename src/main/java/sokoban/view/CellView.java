@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import sokoban.model.Cell.CellValue;
@@ -60,12 +62,10 @@ class CellView extends StackPane {
 
         // un clic sur la cellule permet de jouer celle-ci
         this.setOnMouseClicked(this::onClickEvent);
-        // TODO : startFullDrag();
-        //this.setOnMouseDragged(this::onDragEvent);
-        //this.setOnMouseDragReleased(this::onDragEvent);
-        //this.setOnMouseExited(this::onDragEvent);
-        //this.setOnMouseReleased(this::onDragEvent);
 
+        //DRAG EVENT
+        this.setOnDragDetected(mouseEvent -> this.startFullDrag());
+        this.setOnMouseDragOver(this::onDragEvent);
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
@@ -84,13 +84,10 @@ class CellView extends StackPane {
     }
 
     private void onDragEvent(MouseEvent e) {
-        //System.out.println("drag");
-        //System.out.println(e.getButton());
-        //System.out.println(e.getButton() == MouseButton.PRIMARY);
-        //System.out.println(viewModel.getLine());
-        //System.out.println(viewModel.getCol());
         if (e.getButton() == MouseButton.PRIMARY) {
             viewModel.play(MenuView.cellValue);
+        } if (e.getButton() == MouseButton.SECONDARY){
+            viewModel.play(CellValue.GROUND);
         }
     }
 
