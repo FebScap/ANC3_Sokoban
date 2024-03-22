@@ -1,8 +1,9 @@
 package sokoban.view;
 
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,28 +11,22 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.model.Board;
-import javafx.util.Pair;
-import sokoban.model.Board;
-import sokoban.utils.DialogWindow;
 import sokoban.viewmodel.BoardViewModel;
 
 import java.io.File;
 import java.util.Objects;
-import java.util.Optional;
 
 public class BoardView extends BorderPane {
     // ViewModel
     private final BoardViewModel boardViewModel;
 
     // Constantes de mise en page
-    private static final int SCENE_MIN_WIDTH = 420;
-    private static final int SCENE_MIN_HEIGHT = 420;
+    private static final int SCENE_MIN_WIDTH = 800;
+    private static final int SCENE_MIN_HEIGHT = 600;
 
     // Composants principaux
     private final Label headerLabel = new Label("");
@@ -39,7 +34,7 @@ public class BoardView extends BorderPane {
     private final Label errorPlayer = new Label("A player is required");
     private final Label errorBox = new Label("A box is required");
     private final Label errorTarget = new Label("A Target is required");
-    private final Label errorBoxsTargets = new Label("Number of boxs and targets must be equal");
+    private final Label errorBoxesTargets = new Label("Number of boxes and targets must be equal");
 
     private final VBox headerBox = new VBox();
     private final MenuBar menuBar = new MenuBar();
@@ -68,6 +63,10 @@ public class BoardView extends BorderPane {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
+
+        //creation et suppression du fichier temporaire
+        boardViewModel.save(stage, false);
+        stage.setOnCloseRequest(e -> boardViewModel.deleteTempFile());
     }
 
     private void configMainComponents(Stage stage, File file) {
@@ -85,18 +84,10 @@ public class BoardView extends BorderPane {
         menuFile.getItems().addAll(menuItemNew, menuItemOpen, menuItemSave, menuItemExit);
 
         //LISTENER DU MENU
-        menuItemNew.setOnAction(e -> {
-            boardViewModel.NewItem(stage);
-        });
-        menuItemOpen.setOnAction(e -> {
-            boardViewModel.OpenFile(stage);
-        });
-        menuItemSave.setOnAction(e -> {
-            boardViewModel.Save(stage);
-        });
-        menuItemExit.setOnAction(e -> {
-            boardViewModel.Exit(stage);
-        });
+        menuItemNew.setOnAction(e -> boardViewModel.newItem(stage));
+        menuItemOpen.setOnAction(e -> boardViewModel.openFile(stage));
+        menuItemSave.setOnAction(e -> boardViewModel.save(stage, true));
+        menuItemExit.setOnAction(e -> boardViewModel.exit(stage));
         menuBar.getMenus().add(menuFile);
 
         headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
@@ -123,9 +114,9 @@ public class BoardView extends BorderPane {
         errorTarget.setVisible(false);
         errorTarget.setManaged(false);
 
-        errorBoxsTargets.setTextFill(Color.INDIANRED);
-        errorBoxsTargets.setVisible(false);
-        errorBoxsTargets.setManaged(false);
+        errorBoxesTargets.setTextFill(Color.INDIANRED);
+        errorBoxesTargets.setVisible(false);
+        errorBoxesTargets.setManaged(false);
 
         errorPlayer.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledPlayerCountProperty(), Board.getNB_OF_PLAYER()));
         errorPlayer.managedProperty().bind(errorPlayer.visibleProperty());
@@ -136,13 +127,13 @@ public class BoardView extends BorderPane {
         errorTarget.visibleProperty().bind(Bindings.equal(boardViewModel.filledTargetsCountProperty(), Board.getMIN_OF_TARGET()));
         errorTarget.managedProperty().bind(errorTarget.visibleProperty());
 
-        errorBoxsTargets.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledBoxsCountProperty(), boardViewModel.filledTargetsCountProperty()));
-        errorBoxsTargets.managedProperty().bind(errorBoxsTargets.visibleProperty());
+        errorBoxesTargets.visibleProperty().bind(Bindings.notEqual(boardViewModel.filledBoxsCountProperty(), boardViewModel.filledTargetsCountProperty()));
+        errorBoxesTargets.managedProperty().bind(errorBoxesTargets.visibleProperty());
 
         headerBox.getChildren().add(errorPlayer);
         headerBox.getChildren().add(errorBox);
         headerBox.getChildren().add(errorTarget);
-        headerBox.getChildren().add(errorBoxsTargets);
+        headerBox.getChildren().add(errorBoxesTargets);
 
     }
 
@@ -180,12 +171,8 @@ public class BoardView extends BorderPane {
         );
 
         MenuView menuView = new MenuView(boardViewModel.getMenuViewModel(), menuWidth);
-
-        // Grille carrée
-        menuView.minHeightProperty().bind(menuWidth);
-        menuView.minWidthProperty().bind(menuWidth);
-        menuView.maxHeightProperty().bind(menuWidth);
-        menuView.maxWidthProperty().bind(menuWidth);
+        menuView.maxWidthProperty().bind(widthProperty());
+        menuView.maxHeightProperty().bind(heightProperty().subtract(headerBox.heightProperty()));
 
         setLeft(menuView);
     }
