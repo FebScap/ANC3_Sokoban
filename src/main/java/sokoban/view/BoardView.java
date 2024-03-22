@@ -2,6 +2,8 @@ package sokoban.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -61,6 +63,10 @@ public class BoardView extends BorderPane {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
+
+        //creation et suppression du fichier temporaire
+        boardViewModel.save(stage, false);
+        stage.setOnCloseRequest(e -> boardViewModel.deleteTempFile());
     }
 
     private void configMainComponents(Stage stage, File file) {
@@ -80,7 +86,7 @@ public class BoardView extends BorderPane {
         //LISTENER DU MENU
         menuItemNew.setOnAction(e -> boardViewModel.newItem(stage));
         menuItemOpen.setOnAction(e -> boardViewModel.openFile(stage));
-        menuItemSave.setOnAction(e -> boardViewModel.save(stage));
+        menuItemSave.setOnAction(e -> boardViewModel.save(stage, true));
         menuItemExit.setOnAction(e -> boardViewModel.exit(stage));
         menuBar.getMenus().add(menuFile);
 
