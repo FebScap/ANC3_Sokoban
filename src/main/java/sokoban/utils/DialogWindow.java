@@ -1,15 +1,25 @@
 package sokoban.utils;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableNumberValue;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
+import sokoban.model.Board;
 
 import java.util.Optional;
 
 public class DialogWindow {
+    private static final Label errorWidthMin = new Label("Width must be at least 10");
+    private static final Label errorWidthMax = new Label("Width must be at most 50");
+    private static final Label errorHeightMin = new Label("Height must be at least 10");
+    private static final Label errorHeightMax = new Label("Height must be at most 50");
     /**
      * Ouvre une dialog window pour créer un nouveau fichier
      *
@@ -25,7 +35,7 @@ public class DialogWindow {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setPadding(new Insets(20, 20, 20, 20));
 
         TextField width = new TextField();
         width.setPromptText("Width");
@@ -34,6 +44,7 @@ public class DialogWindow {
 
         grid.add(new Label("Width"), 0, 0);
         grid.add(width, 1, 0);
+
         grid.add(new Label("Height"), 0, 1);
         grid.add(height, 1, 1);
 

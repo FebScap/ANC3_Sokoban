@@ -1,6 +1,5 @@
 package sokoban.view;
 
-import javafx.beans.Observable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -10,8 +9,8 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import sokoban.model.Cell.CellValue;
@@ -33,6 +32,9 @@ class CellView extends StackPane {
     private final DoubleBinding widthProperty;
 
     private final ImageView imageView = new ImageView();
+    private final ImageView imageViewMid = new ImageView();
+    private final ImageView imageViewTop = new ImageView();
+
 
     CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = cellViewModel;
@@ -47,8 +49,10 @@ class CellView extends StackPane {
 
     private void layoutControls() {
         imageView.setPreserveRatio(true);
+        imageViewMid.setPreserveRatio(true);
+        imageViewTop.setPreserveRatio(true);
 
-        getChildren().addAll(imageView);
+        getChildren().addAll(imageView, imageViewMid, imageViewTop);
     }
 
     private void configureBindings() {
@@ -57,15 +61,16 @@ class CellView extends StackPane {
 
         // adapte la largeur de l'image à celle de la cellule multipliée par l'échelle
         imageView.fitWidthProperty().bind(widthProperty);
+        imageViewMid.fitWidthProperty().bind(widthProperty);
+        imageViewTop.fitWidthProperty().bind(widthProperty);
+
 
         // un clic sur la cellule permet de jouer celle-ci
         this.setOnMouseClicked(this::onClickEvent);
-        // TODO : startFullDrag();
-        //this.setOnMouseDragged(this::onDragEvent);
-        //this.setOnMouseDragReleased(this::onDragEvent);
-        //this.setOnMouseExited(this::onDragEvent);
-        //this.setOnMouseReleased(this::onDragEvent);
 
+        //DRAG EVENT
+        this.setOnDragDetected(mouseEvent -> this.startFullDrag());
+        this.setOnMouseDragOver(this::onDragEvent);
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
@@ -84,13 +89,10 @@ class CellView extends StackPane {
     }
 
     private void onDragEvent(MouseEvent e) {
-        //System.out.println("drag");
-        //System.out.println(e.getButton());
-        //System.out.println(e.getButton() == MouseButton.PRIMARY);
-        //System.out.println(viewModel.getLine());
-        //System.out.println(viewModel.getCol());
         if (e.getButton() == MouseButton.PRIMARY) {
             viewModel.play(MenuView.cellValue);
+        } if (e.getButton() == MouseButton.SECONDARY){
+            viewModel.play(CellValue.GROUND);
         }
     }
 
@@ -100,7 +102,22 @@ class CellView extends StackPane {
     }
 
     private void setImage(ImageView imageView, CellValue cellValue) {
-        imageView.setImage(images.get(cellValue));
+        switch (cellValue) {
+            case GROUND, WALL :
+                imageView.setImage(images.get(cellValue));
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(cellValue));
+                break;
+            case PLAYER, TARGET, BOX :
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(cellValue));
+                break;
+            case PLAYER_TARGET, BOX_TARGET :
+                imageViewMid.setImage(images.get(cellValue));
+                imageViewTop.setImage(images.get(CellValue.TARGET));
+                break;
+        }
+
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {

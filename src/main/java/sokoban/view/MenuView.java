@@ -26,14 +26,11 @@ public class MenuView extends GridPane {
     MenuView(MenuViewModel menuViewModel, DoubleBinding menuWidth) {
         // Pour visualiser les limites de la grille
         // setStyle("-fx-background-color: lightgrey");
-        setPadding(new Insets(PADDING));
-
-        DoubleBinding cellWidth = menuWidth
-                .subtract(PADDING * 2);
+        setHgap(PADDING);
 
         // Remplissage de la grille
         for (int i = 0; i < VALUES.length; i++) {
-            ToolView toolView = new ToolView(menuViewModel.getToolViewModel(i), cellWidth, VALUES[i]);
+            ToolView toolView = new ToolView(menuViewModel.getToolViewModel(i), menuWidth, VALUES[i]);
             add(toolView, 1, i); // lignes/colonnes inversées dans gridpane
         }
     }
