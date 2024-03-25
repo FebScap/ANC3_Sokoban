@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -72,7 +74,6 @@ public class BoardView extends BorderPane {
     private void configMainComponents(Stage stage, File file) {
         stage.setTitle("Sokoban");
         createGrid(file);
-        createMenu();
         createHeader(stage);
     }
 
@@ -138,15 +139,31 @@ public class BoardView extends BorderPane {
     }
 
     private void createGrid(File file) {
-        DoubleBinding gridWidth = (DoubleBinding) Bindings.min(
-                widthProperty(),
-                heightProperty().subtract(headerBox.heightProperty())
+        DoubleBinding menuWidth = Bindings.createDoubleBinding(
+                ()-> Math.floor(Math.min((heightProperty().doubleValue() - 40),
+                        (widthProperty().doubleValue() - 40) / widthProperty().doubleValue())
+                ),
+                heightProperty(),
+                widthProperty());
+
+        DoubleBinding gridWidth = (DoubleBinding) Bindings.createDoubleBinding(
+                () -> Math.floor((widthProperty().get() - menuWidth.get())
+                        / boardViewModel.gridWidth()) * boardViewModel.gridWidth(),
+                menuWidth,
+                widthProperty()
         );
+
+        DoubleBinding gridHeight = Bindings.createDoubleBinding(
+                () -> Math.floor((heightProperty().get() - headerBox.heightProperty().get())
+                        / boardViewModel.gridHeight()) * boardViewModel.gridHeight(),
+                heightProperty(),
+                headerBox.heightProperty());
 
         GridView gridView;
         if (file == null) {
             gridView = new GridView(boardViewModel.getGridViewModel(),
                     gridWidth,
+                    gridHeight,
                     boardViewModel.gridWidth(),
                     boardViewModel.gridHeight());
         } else {
@@ -156,24 +173,20 @@ public class BoardView extends BorderPane {
         }
 
         // Grille carrée
-        gridView.minHeightProperty().bind(gridWidth);
-        gridView.minWidthProperty().bind(gridWidth);
-        gridView.maxHeightProperty().bind(gridWidth);
-        gridView.maxWidthProperty().bind(gridWidth);
+//        gridView.minHeightProperty().bind(gridWidth);
+//        gridView.minWidthProperty().bind(gridWidth);
+//        gridView.maxHeightProperty().bind(gridWidth);
+//        gridView.maxWidthProperty().bind(gridWidth);
 
-        setCenter(gridView);
-    }
-
-    private void createMenu() {
-        DoubleBinding menuWidth = (DoubleBinding) Bindings.min(
-                widthProperty().subtract(700),
-                heightProperty().subtract(headerBox.heightProperty())
-        );
-
+        //creation du menu
         MenuView menuView = new MenuView(boardViewModel.getMenuViewModel(), menuWidth);
         menuView.maxWidthProperty().bind(widthProperty());
         menuView.maxHeightProperty().bind(heightProperty().subtract(headerBox.heightProperty()));
 
+        menuView.setAlignment(Pos.CENTER);
+        gridView.setAlignment(Pos.CENTER);
+
         setLeft(menuView);
+        setCenter(gridView);
     }
 }

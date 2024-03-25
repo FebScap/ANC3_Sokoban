@@ -1,11 +1,10 @@
 package sokoban.view;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
-import sokoban.model.Board;
 import sokoban.model.Cell.CellValue;
-import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.GridViewModel;
 
 import java.io.File;
@@ -16,14 +15,17 @@ import java.util.List;
 class GridView extends GridPane {
     private static final int PADDING = 20;
 
-    GridView(GridViewModel gridViewModel, DoubleBinding gridWidth, int line, int col) {
+    GridView(GridViewModel gridViewModel, DoubleBinding gridWidth, DoubleBinding gridHeight, int line, int col) {
         // Pour visualiser les limites de la grille
         // setStyle("-fx-background-color: lightgrey");
         setPadding(new Insets(PADDING));
 
-        DoubleBinding cellWidth = gridWidth
-                .subtract(PADDING * 2)
-                .divide(col);
+        DoubleBinding cellWidth = Bindings.createDoubleBinding(
+                ()-> Math.floor(Math.min((gridHeight.doubleValue() - PADDING*2),
+                        (gridWidth.doubleValue() - PADDING * 2) / gridWidth.doubleValue())
+                ),
+                gridHeight,
+                gridWidth);
 
         // Remplissage de la grille
         for (int i = 0; i < line; ++i) {
