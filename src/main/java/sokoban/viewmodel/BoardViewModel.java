@@ -56,27 +56,7 @@ public class BoardViewModel {
     public LongBinding filledBoxsCountProperty() {return board.getGrid().filledBoxsCountProperty();}
 
     public void newItem(Stage stage) {
-        File file = new File("src/main/resources/temp.xsb");
-        StringBuilder oldString = new StringBuilder();
-        try {
-            List<String> lines = Files.readAllLines(file.toPath());
-            for (String s : lines) {
-                oldString.append(s).append("\n");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (!fileStringBuilder().contentEquals(oldString)) {
-            int result = DialogWindow.doSave();
-            if (result == 0) {
-                save(stage, true);
-            } else if (result == 1) {
-                newFileDialog(stage);
-            }
-        } else {
-            newFileDialog(stage);
-        }
-
+        newFileDialog(stage);
     }
 
     private void newFileDialog(Stage stage) {
@@ -151,6 +131,42 @@ public class BoardViewModel {
             new BoardView(stage, vm, file);
         } catch (IOException e) {
             throw new RuntimeException("Erreur lors de la lecture du fichier");
+        }
+    }
+
+    //Verify is the file has been changed before making an action
+    //Type 0 : Open a dialog to create a new file
+    //Type 1 : Open a file
+    public void fileModified(Stage stage, int type) {
+        File file = new File("src/main/resources/temp.xsb");
+        StringBuilder oldString = new StringBuilder();
+        try {
+            List<String> lines = Files.readAllLines(file.toPath());
+            for (String s : lines) {
+                oldString.append(s).append("\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (!fileStringBuilder().contentEquals(oldString)) {
+            int result = DialogWindow.doSave();
+            if (result == 0) {
+                save(stage, true);
+                switch (type) {
+                    case 0 -> newItem(stage);
+                    case 1 -> openFile(stage);
+                }
+            } else if (result == 1) {
+                switch (type) {
+                    case 0 -> newItem(stage);
+                    case 1 -> openFile(stage);
+                }
+            }
+        } else {
+            switch (type) {
+                case 0 -> newItem(stage);
+                case 1 -> openFile(stage);
+            }
         }
     }
 

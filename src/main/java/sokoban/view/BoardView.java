@@ -85,8 +85,8 @@ public class BoardView extends BorderPane {
         menuFile.getItems().addAll(menuItemNew, menuItemOpen, menuItemSave, menuItemExit);
 
         //LISTENER DU MENU
-        menuItemNew.setOnAction(e -> boardViewModel.newItem(stage));
-        menuItemOpen.setOnAction(e -> boardViewModel.openFile(stage));
+        menuItemNew.setOnAction(e -> boardViewModel.fileModified(stage, 0));
+        menuItemOpen.setOnAction(e -> boardViewModel.fileModified(stage, 1));
         menuItemSave.setOnAction(e -> boardViewModel.save(stage, true));
         menuItemExit.setOnAction(e -> boardViewModel.exit(stage));
         menuBar.getMenus().add(menuFile);
