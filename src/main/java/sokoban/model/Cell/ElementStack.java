@@ -3,36 +3,35 @@ package sokoban.model.Cell;
 import javafx.beans.property.ObjectProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ElementStack {
-    private CellValue value;
-    private final List<GameObject> elements = new ArrayList<GameObject>();
-    public ElementStack(CellValue value) {
-        this.value = value;
+    private final HashMap <Integer, GameObject> elements = new HashMap<>();
+    public ElementStack() {
+        elements.put(0, new Ground());
+        elements.put(1, null);
+        elements.put(2, null);
     }
 
-    public void setElement(CellValue value) {
-        if (!value.equals(CellValue.WALL)) {
-            this.value = value;
-            this.elements.clear();
-            this.elements.add(new Ground());
-            switch (value) {
-                case PLAYER -> this.elements.add(new Player());
-                case TARGET -> this.elements.add(new Target());
-                case BOX -> this.elements.add(new Box());
-                case PLAYER_TARGET -> {
-                    this.elements.add(new Player());
-                    this.elements.add(new Target());
-                }
-                case BOX_TARGET -> {
-                    this.elements.add(new Box());
-                    this.elements.add(new Target());
-                }
-            }
-        } else {
-            throw new RuntimeException("ElementStack value can't be type of " + value.toString());
+    public void addElement(GameObject element) {
+        if (element instanceof Wall) {
+            elements.clear();
+            elements.put(0, element);
+        } else if (element instanceof Player) {
+            elements.put(1, element);
+        } else if (element instanceof Target) {
+            elements.put(2, element);
+        } else if (element instanceof Box) {
+            elements.put(1, element);
+        } else if (element instanceof Ground) {
+            elements.clear();
+            elements.put(0, element);
         }
+    }
+
+    public void removeElement(GameObject element) {
+        //TODO 
     }
 
     public CellValue getValue() {
