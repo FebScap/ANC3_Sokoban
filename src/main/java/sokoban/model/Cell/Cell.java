@@ -2,46 +2,33 @@ package sokoban.model.Cell;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.util.Pair;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cell {
-    private final ObjectProperty<CellValue> value = new SimpleObjectProperty<>(CellValue.GROUND);
     private final ElementStack stack;
-    private final Wall wall = new Wall();
-    private boolean isWall;
+    private static Player player = new Player();
+    private static ObjectProperty<Pair<Integer, Integer>> playerPos;
     public Cell() {
-        this.isWall = false;
-        this.stack = new ElementStack(CellValue.GROUND);
+        this.stack = new ElementStack();
     }
 
-    public CellValue getValue() {
-        return this.value.getValue();
+    public HashMap<Integer, ObjectProperty<GameObject>> getElements() {
+        return this.stack.getElements()getElements();
     }
-    private void setValue(CellValue value) {
-        this.value.setValue(value);
-    }
-    public ReadOnlyObjectProperty<CellValue> valueProperty() {
-        return this.value;
+    public void addElement(GameObject value) {
+        this.stack.addElement(value);
     }
 
-    public void setType(CellValue value){
-        if (value.equals(CellValue.WALL)) {
-            this.isWall = true;
-            setValue(value);
-        } else {
-            stack.setElement(value);
-            setValue(value);
-        }
-    }
-
-    public Object getElement() {
-        if (isWall) {
-            return wall;
-        } else {
-            return stack;
-        }
-    }
     public boolean isEmpty() {
-        return this.value.get() == CellValue.GROUND;
+        return this.stack.getElements().get(0).getValue() instanceof Ground
+                && this.stack.getElements().get(1).getValue() == null
+                && this.stack.getElements().get(2).getValue() == null;
+    }
+
+    public void setPlayerPos (int line, int col) {
+        playerPos.setValue(new Pair<>(line,col));
     }
 }
