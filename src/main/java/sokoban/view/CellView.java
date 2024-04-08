@@ -20,12 +20,12 @@ import java.util.Map;
 
 class CellView extends StackPane {
 
-    private static final HashMap<GameObject, Image> images = new HashMap<>(){{
-        put(new Box(), new Image("box.png"));
-        put(new Target(), new Image("goal.png"));
-        put(new Ground(), new Image("ground.png"));
-        put(new Player(), new Image("player.png"));
-        put(new Wall(), new Image("wall.png"));
+    private static final HashMap<CellValue, Image> images = new HashMap<>(){{
+        put(CellValue.BOX, new Image("box.png"));
+        put(CellValue.TARGET, new Image("goal.png"));
+        put(CellValue.GROUND, new Image("ground.png"));
+        put(CellValue.PLAYER, new Image("player.png"));
+        put(CellValue.WALL, new Image("wall.png"));
     }};
 
     private final CellViewModel viewModel;
@@ -84,7 +84,13 @@ class CellView extends StackPane {
 
     private void playEvent(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
-            viewModel.play(MenuView.cellValue);
+            switch (MenuView.cellValue) {
+                case PLAYER -> viewModel.play(new Player());
+                case BOX -> viewModel.play(new Box());
+                case WALL -> viewModel.play(new Wall());
+                case GROUND -> viewModel.play(new Ground());
+                case TARGET -> viewModel.play(new Target());
+            }
         } if (e.getButton() == MouseButton.SECONDARY){
             viewModel.play(new Ground());
         }
@@ -96,9 +102,16 @@ class CellView extends StackPane {
     }
 
     private void setImage(ImageView imageView, Map<Integer, GameObject> cellValue) {
-        imageView.setImage(images.get(cellValue.get(0)));
-        imageViewMid.setImage(images.get(cellValue.get(1)));
-        imageViewTop.setImage(images.get(cellValue.get(2)));
+        if (cellValue.get(0) instanceof Wall)
+            imageView.setImage(images.get(CellValue.WALL));
+        else
+            imageView.setImage(images.get(CellValue.GROUND));
+        if (cellValue.get(1) instanceof Player)
+            imageViewMid.setImage(images.get(CellValue.PLAYER));
+        else
+            imageViewMid.setImage(images.get(CellValue.BOX));
+        if (cellValue.get(2) instanceof Target)
+            imageViewTop.setImage(images.get(CellValue.TARGET));
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {

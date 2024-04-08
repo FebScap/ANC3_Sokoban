@@ -16,20 +16,20 @@ import java.util.HashMap;
 public class ToolView extends StackPane {
     private final ToolViewModel viewModel;
     private final DoubleBinding widthProperty;
-    private static final HashMap<GameObject, Image> images = new HashMap<>(){{
-        put(new Box(), new Image("box.png"));
-        put(new Target(), new Image("goal.png"));
-        put(new Ground(), new Image("ground.png"));
-        put(new Player(), new Image("player.png"));
-        put(new Wall(), new Image("wall.png"));
+    private static final HashMap<CellValue, Image> images = new HashMap<>(){{
+        put(CellValue.BOX, new Image("box.png"));
+        put(CellValue.TARGET, new Image("goal.png"));
+        put(CellValue.GROUND, new Image("ground.png"));
+        put(CellValue.PLAYER, new Image("player.png"));
+        put(CellValue.WALL, new Image("wall.png"));
     }};
 
     private final ImageView imageView = new ImageView();
 
-    private final GameObject current;
+    private final CellValue current;
     private static ToolView selected = null;
 
-    ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, GameObject value) {
+    ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = toolViewModel;
         this.widthProperty = cellWidthProperty;
         this.current = value;
