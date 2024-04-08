@@ -4,12 +4,14 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
-import sokoban.model.Cell.CellValue;
+import sokoban.model.Cell.*;
 import sokoban.viewmodel.GridViewModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class GridView extends GridPane {
@@ -30,7 +32,7 @@ class GridView extends GridPane {
         // Remplissage de la grille
         for (int i = 0; i < line; ++i) {
             for (int j = 0; j < col; ++j) {
-                CellView cellView = new CellView(gridViewModel.getCellViewModel(i, j), cellWidth, CellValue.GROUND);
+                CellView cellView = new CellView(gridViewModel.getCellViewModel(i, j), cellWidth, Collections.singletonList(new Ground()));
                 add(cellView, j, i); // lignes/colonnes inversées dans gridpane
             }
         }
@@ -49,36 +51,28 @@ class GridView extends GridPane {
             // Remplissage de la grille
             for (int i = 0; i < line; ++i) {
                 for (int j = 0; j < col; ++j) {
-                    CellView cellView = null;
-                    System.out.println(lines.get(i).split("")[j]);
-                    if (lines.get(i).split("")[j].equals(" "))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.GROUND);
-                    else if (lines.get(i).split("")[j].equals("#"))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.WALL);
-                    else if (lines.get(i).split("")[j].equals("."))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.TARGET);
-                    else if (lines.get(i).split("")[j].equals("$"))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.BOX);
-                    else if (lines.get(i).split("")[j].equals("*"))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.BOX_TARGET);
-                    else if (lines.get(i).split("")[j].equals("@"))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.PLAYER);
-                    else if (lines.get(i).split("")[j].equals("+"))
-                        cellView = new CellView(
-                                gridViewModel.getCellViewModel(i, j),
-                                cellWidth, CellValue.PLAYER_TARGET);
+                    List<GameObject> objects = new ArrayList<>();
+                    switch (lines.get(i).split("")[j]) {
+                        case " ":
+                            objects.add(new Ground());
+                        case "#":
+                            objects.add(new Wall());
+                        case ".":
+                            objects.add(new Target());
+                        case "$":
+                            objects.add(new Box());
+                        case "*":
+                            objects.add(new Box());
+                            objects.add(new Target());
+                        case "@":
+                            objects.add(new Player());
+                        case "+":
+                            objects.add(new Player());
+                            objects.add(new Target());
+                    }
+                    CellView cellView = new CellView(
+                            gridViewModel.getCellViewModel(i, j),
+                            cellWidth, objects);
                     add(cellView, j, i); // lignes/colonnes inversées dans gridpane
                 }
             }

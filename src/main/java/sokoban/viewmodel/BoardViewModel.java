@@ -2,11 +2,12 @@ package sokoban.viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.binding.LongBinding;
+import javafx.collections.ObservableMap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import sokoban.model.Board;
-import sokoban.model.Cell.CellValue;
+import sokoban.model.Cell.*;
 import sokoban.utils.DialogWindow;
 import sokoban.view.BoardView;
 
@@ -178,16 +179,27 @@ public class BoardViewModel {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < board.getGrid().getLine(); i++) {
             for (int j = 0; j < board.getGrid().getCol(); j++) {
-                CellValue value = gridViewModel.getCellViewModel(i, j).valueProperty().getValue();
-                switch (value) {
-                    case GROUND -> str.append(' ');
-                    case WALL -> str.append('#');
-                    case TARGET -> str.append('.');
-                    case BOX -> str.append('$');
-                    case BOX_TARGET -> str.append('*');
-                    case PLAYER -> str.append('@');
-                    case PLAYER_TARGET -> str.append('+');
-                }
+                ObservableMap<Integer, GameObject> stack = gridViewModel.getCellViewModel(i, j).valueProperty().getValue();
+                if (stack.get(0) instanceof Ground) {
+                    if (stack.get(1) instanceof Box) {
+                        if (stack.get(2) instanceof Target) { //instance box target
+                            str.append('*');
+                        } else { //instance de box
+                            str.append('$');
+                        }
+                    } else if (stack.get(1) instanceof Player){
+                        if (stack.get(2) instanceof Target) { //instance de player target
+                            str.append('+');
+                        } else { //instance de player
+                            str.append('@');
+                        }
+                    } else if (stack.get(2) instanceof Target) {
+                        str.append('.');
+                    } else { // instance de ground
+                        str.append(' ');                    }
+                } else { //Instance de wall
+                    str.append('#');                }
+
                 if (j == board.getGrid().getCol() - 1)
                     str.append('\n');
             }

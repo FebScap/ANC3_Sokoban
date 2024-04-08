@@ -1,21 +1,16 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import sokoban.model.Cell.CellValue;
-import sokoban.viewmodel.CellViewModel;
 import sokoban.viewmodel.MenuViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuView extends GridPane {
     private static final int PADDING = 20;
 
-    public static CellValue cellValue = CellValue.WALL;
+    public static CellValue cellValue = CellValue.GROUND;
 
-    private final CellValue[] VALUES = new CellValue[]{
+    final CellValue[] VALUES = new CellValue[]{
             CellValue.GROUND,
             CellValue.TARGET,
             CellValue.WALL,
