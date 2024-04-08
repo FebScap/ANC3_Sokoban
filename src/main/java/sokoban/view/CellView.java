@@ -102,16 +102,26 @@ class CellView extends StackPane {
     }
 
     private void setImage(ImageView imageView, Map<Integer, GameObject> cellValue) {
-        if (cellValue.get(0) instanceof Wall)
+        clearImages();
+        if (cellValue.get(0) instanceof Wall) {
             imageView.setImage(images.get(CellValue.WALL));
-        else
+        } else if (cellValue.get(0) instanceof Ground) {
             imageView.setImage(images.get(CellValue.GROUND));
-        if (cellValue.get(1) instanceof Player)
+        }
+        if (cellValue.get(1) instanceof Player) {
             imageViewMid.setImage(images.get(CellValue.PLAYER));
-        else
+        } else if (cellValue.get(1) instanceof Box) {
             imageViewMid.setImage(images.get(CellValue.BOX));
-        if (cellValue.get(2) instanceof Target)
+        }
+        if (cellValue.get(2) instanceof Target) {
             imageViewTop.setImage(images.get(CellValue.TARGET));
+        }
+    }
+
+    private void clearImages() {
+        imageView.setImage(null);
+        imageViewMid.setImage(null);
+        imageViewTop.setImage(null);
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {

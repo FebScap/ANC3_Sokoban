@@ -18,8 +18,14 @@ public class ElementStack {
             elements.put(1, null);
             elements.put(2, null);
         } else if (element instanceof Player || element instanceof Box) {
+            if (elements.get(0) instanceof Wall) {
+                elements.put(0, new Ground());
+            }
             elements.put(1, element);
         } else if (element instanceof Target) {
+            if (elements.get(0) instanceof Wall) {
+                elements.put(0, new Ground());
+            }
             elements.put(2, element);
         }
     }
