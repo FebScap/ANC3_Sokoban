@@ -7,9 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import sokoban.model.Cell.Cell;
+import sokoban.model.Cell.*;
 import javafx.scene.layout.StackPane;
-import sokoban.model.Cell.CellValue;
 import sokoban.viewmodel.ToolViewModel;
 
 import java.util.HashMap;

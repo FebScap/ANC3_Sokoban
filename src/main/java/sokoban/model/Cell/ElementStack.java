@@ -1,44 +1,48 @@
 package sokoban.model.Cell;
 
-import javafx.beans.property.ObjectProperty;
-
-import java.util.ArrayList;
-import java.util.List;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
 
 public class ElementStack {
-    private CellValue value;
-    private final List<GameObject> elements = new ArrayList<GameObject>();
-    public ElementStack(CellValue value) {
-        this.value = value;
+    private final MapProperty<Integer, GameObject> elements = new SimpleMapProperty<>(FXCollections.observableHashMap());
+    public ElementStack() {
+        elements.put(0, new Ground());
+        elements.put(1, null);
+        elements.put(2, null);
     }
 
-    public void setElement(CellValue value) {
-        if (!value.equals(CellValue.WALL)) {
-            this.value = value;
-            this.elements.clear();
-            this.elements.add(new Ground());
-            switch (value) {
-                case PLAYER -> this.elements.add(new Player());
-                case TARGET -> this.elements.add(new Target());
-                case BOX -> this.elements.add(new Box());
-                case PLAYER_TARGET -> {
-                    this.elements.add(new Player());
-                    this.elements.add(new Target());
-                }
-                case BOX_TARGET -> {
-                    this.elements.add(new Box());
-                    this.elements.add(new Target());
-                }
+    public void addElement(GameObject element) {
+        if (element instanceof Wall || element instanceof Ground) {
+            elements.put(0, element);
+            elements.put(1, null);
+            elements.put(2, null);
+        } else if (element instanceof Player || element instanceof Box) {
+            if (elements.get(0) instanceof Wall) {
+                elements.put(0, new Ground());
             }
-        } else {
-            throw new RuntimeException("ElementStack value can't be type of " + value.toString());
+            elements.put(1, element);
+        } else if (element instanceof Target) {
+            if (elements.get(0) instanceof Wall) {
+                elements.put(0, new Ground());
+            }
+            elements.put(2, element);
         }
     }
 
-    public CellValue getValue() {
-        return value;
+    public void removeElement(GameObject element) {
+        //TODO
+        if (element instanceof Wall) {
+            elements.getValue().put(0, new Ground());
+        } else if (element instanceof Player || element instanceof Box) {
+            elements.put(1, null);
+        } else if (element instanceof Target) {
+            elements.put(2, null);
+
+        }
     }
-    public List<GameObject> getElements() {
+
+    public MapProperty<Integer, GameObject> getElementsProperty() {
         return elements;
     }
 }

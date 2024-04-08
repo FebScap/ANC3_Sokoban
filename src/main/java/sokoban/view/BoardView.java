@@ -2,9 +2,6 @@ package sokoban.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -12,7 +9,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -73,6 +69,7 @@ public class BoardView extends BorderPane {
 
     private void configMainComponents(Stage stage, File file) {
         stage.setTitle("Sokoban");
+        this.setOnMouseClicked(e -> boardViewModel.fileModified(stage, 2));
         createGrid(file);
         createHeader(stage);
     }
@@ -85,8 +82,8 @@ public class BoardView extends BorderPane {
         menuFile.getItems().addAll(menuItemNew, menuItemOpen, menuItemSave, menuItemExit);
 
         //LISTENER DU MENU
-        menuItemNew.setOnAction(e -> boardViewModel.newItem(stage));
-        menuItemOpen.setOnAction(e -> boardViewModel.openFile(stage));
+        menuItemNew.setOnAction(e -> boardViewModel.fileModified(stage, 0));
+        menuItemOpen.setOnAction(e -> boardViewModel.fileModified(stage, 1));
         menuItemSave.setOnAction(e -> boardViewModel.save(stage, true));
         menuItemExit.setOnAction(e -> boardViewModel.exit(stage));
         menuBar.getMenus().add(menuFile);
@@ -146,7 +143,7 @@ public class BoardView extends BorderPane {
                 heightProperty(),
                 widthProperty());
 
-        DoubleBinding gridWidth = (DoubleBinding) Bindings.createDoubleBinding(
+        DoubleBinding gridWidth = Bindings.createDoubleBinding(
                 () -> Math.floor((widthProperty().get() - menuWidth.get())
                         / boardViewModel.gridWidth()) * boardViewModel.gridWidth(),
                 menuWidth,

@@ -3,20 +3,20 @@ package sokoban.view;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import sokoban.model.Cell.CellValue;
+import sokoban.model.Cell.*;
 import sokoban.viewmodel.CellViewModel;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class CellView extends StackPane {
 
@@ -35,13 +35,16 @@ class CellView extends StackPane {
     private final ImageView imageViewMid = new ImageView();
     private final ImageView imageViewTop = new ImageView();
 
-
-    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty, CellValue value) {
+    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty, List<GameObject> elements) {
         this.viewModel = cellViewModel;
         this.widthProperty = cellWidthProperty;
 
+        for (GameObject o : elements) {
+            this.viewModel.play(o);
+        }
+
         setAlignment(Pos.CENTER);
-        setImage(imageView, value);
+        setImage(imageView, viewModel.valueProperty());
 
         layoutControls();
         configureBindings();
@@ -66,11 +69,11 @@ class CellView extends StackPane {
 
 
         // un clic sur la cellule permet de jouer celle-ci
-        this.setOnMouseClicked(this::onClickEvent);
+        this.setOnMouseClicked(this::playEvent);
 
         //DRAG EVENT
         this.setOnDragDetected(mouseEvent -> this.startFullDrag());
-        this.setOnMouseDragOver(this::onDragEvent);
+        this.setOnMouseDragOver(this::playEvent);
 
         // gère le survol de la cellule avec la souris
         hoverProperty().addListener(this::hoverChanged);
@@ -79,45 +82,46 @@ class CellView extends StackPane {
         viewModel.valueProperty().addListener(this::onValueChanged);
     }
 
-    private void onClickEvent(MouseEvent e) {
+    private void playEvent(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
-            viewModel.play(MenuView.cellValue);
-        }
-        if (e.getButton() == MouseButton.SECONDARY){
-            viewModel.play(CellValue.GROUND);
-        }
-    }
-
-    private void onDragEvent(MouseEvent e) {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            viewModel.play(MenuView.cellValue);
+            switch (MenuView.cellValue) {
+                case PLAYER -> viewModel.play(new Player());
+                case BOX -> viewModel.play(new Box());
+                case WALL -> viewModel.play(new Wall());
+                case GROUND -> viewModel.play(new Ground());
+                case TARGET -> viewModel.play(new Target());
+            }
         } if (e.getButton() == MouseButton.SECONDARY){
-            viewModel.play(CellValue.GROUND);
+            viewModel.play(new Ground());
         }
     }
 
 
-    private void onValueChanged(ObservableValue<? extends CellValue> observableValue, CellValue oldValue, CellValue newValue) {
+    private void onValueChanged(ObservableValue<? extends Map<Integer, GameObject>> observableValue, Map<Integer, GameObject> oldValue, Map<Integer, GameObject> newValue) {
         setImage(imageView, newValue);
     }
 
-    private void setImage(ImageView imageView, CellValue cellValue) {
-        switch (cellValue) {
-            case GROUND, WALL :
-                imageView.setImage(images.get(cellValue));
-                imageViewMid.setImage(images.get(cellValue));
-                imageViewTop.setImage(images.get(cellValue));
-                break;
-            case PLAYER, TARGET, BOX :
-                imageViewMid.setImage(images.get(cellValue));
-                imageViewTop.setImage(images.get(cellValue));
-                break;
-            case PLAYER_TARGET, BOX_TARGET :
-                imageViewMid.setImage(images.get(cellValue));
-                imageViewTop.setImage(images.get(CellValue.TARGET));
-                break;
+    private void setImage(ImageView imageView, Map<Integer, GameObject> cellValue) {
+        clearImages();
+        if (cellValue.get(0) instanceof Wall) {
+            imageView.setImage(images.get(CellValue.WALL));
+        } else if (cellValue.get(0) instanceof Ground) {
+            imageView.setImage(images.get(CellValue.GROUND));
         }
+        if (cellValue.get(1) instanceof Player) {
+            imageViewMid.setImage(images.get(CellValue.PLAYER));
+        } else if (cellValue.get(1) instanceof Box) {
+            imageViewMid.setImage(images.get(CellValue.BOX));
+        }
+        if (cellValue.get(2) instanceof Target) {
+            imageViewTop.setImage(images.get(CellValue.TARGET));
+        }
+    }
 
+    private void clearImages() {
+        imageView.setImage(null);
+        imageViewMid.setImage(null);
+        imageViewTop.setImage(null);
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
