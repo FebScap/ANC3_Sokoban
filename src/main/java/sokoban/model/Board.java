@@ -2,7 +2,9 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.MapProperty;
+import sokoban.model.Cell.CellValue;
 import sokoban.model.Cell.GameObject;
+import sokoban.model.Cell.Wall;
 
 public class Board {
     private final int MAX_FILLED_CELLS;
@@ -30,7 +32,7 @@ public class Board {
     }
 
     public void play(int line, int col, GameObject value) {
-        if (!isFull()) {
+        if (!isFull() || !isEmpty(line, col)) {
             grid.play(line, col, value);
         }
     }
