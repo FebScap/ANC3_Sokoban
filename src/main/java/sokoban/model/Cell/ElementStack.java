@@ -1,43 +1,42 @@
 package sokoban.model.Cell;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ElementStack {
-    private final HashMap <Integer, GameObject> elements = new HashMap<>();
+    private final HashMap <Integer, ObjectProperty<GameObject>> elements = new HashMap<>();
     public ElementStack() {
-        elements.put(0, new Ground());
-        elements.put(1, null);
-        elements.put(2, null);
+        elements.put(0, new SimpleObjectProperty<>(new Ground()));
+        elements.put(1, new SimpleObjectProperty<>());
+        elements.put(2, new SimpleObjectProperty<>());
     }
 
     public void addElement(GameObject element) {
-        if (element instanceof Wall) {
-            elements.clear();
-            elements.put(0, element);
-        } else if (element instanceof Player) {
-            elements.put(1, element);
+        if (element instanceof Wall || element instanceof Ground) {
+            elements.get(0).setValue(element);
+            elements.get(1).setValue(null);
+            elements.get(2).setValue(null);
+        } else if (element instanceof Player || element instanceof Box) {
+            elements.get(1).setValue(element);
         } else if (element instanceof Target) {
-            elements.put(2, element);
-        } else if (element instanceof Box) {
-            elements.put(1, element);
-        } else if (element instanceof Ground) {
-            elements.clear();
-            elements.put(0, element);
+            elements.get(2).setValue(element);
         }
     }
 
     public void removeElement(GameObject element) {
-        //TODO 
+        //TODO
+        if (element instanceof Wall) {
+            elements.get(0).setValue(new Ground());
+        } else if (element instanceof Player || element instanceof Box) {
+            elements.get(1).setValue(null);
+        } else if (element instanceof Target) {
+            elements.get(2).setValue(null);
+        }
     }
 
-    public CellValue getValue() {
-        return value;
-    }
-    public List<GameObject> getElements() {
+    public HashMap<Integer, ObjectProperty<GameObject>> getElements() {
         return elements;
     }
 }

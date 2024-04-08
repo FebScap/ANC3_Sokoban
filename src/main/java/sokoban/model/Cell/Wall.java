@@ -5,6 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Wall extends GameObject {
     public Wall() {
-        super(new SimpleObjectProperty<>(CellValue.WALL));
+        super();
     }
 }

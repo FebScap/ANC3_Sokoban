@@ -5,6 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Ground extends GameObject {
     public Ground() {
-        super(new SimpleObjectProperty<>(CellValue.GROUND));
+        super();
     }
 }

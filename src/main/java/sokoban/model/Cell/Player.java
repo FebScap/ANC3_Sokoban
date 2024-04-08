@@ -6,6 +6,6 @@ import sokoban.model.Cell.GameObject;
 
 public class Player extends GameObject {
     public Player() {
-        super(new SimpleObjectProperty<>(CellValue.PLAYER));
+        super();
     }
 }
