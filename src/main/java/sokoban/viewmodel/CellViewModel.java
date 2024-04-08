@@ -16,7 +16,7 @@ public class CellViewModel {
         this.board = board;
     }
 
-    public void play(CellValue value) {
+    public void play(GameObject value) {
         board.play(line, col, value);
     }
 
