@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import sokoban.model.Cell.Cell;
 import javafx.scene.layout.StackPane;
 import sokoban.model.Cell.CellValue;
+import sokoban.model.Cell.GameObject;
 import sokoban.viewmodel.ToolViewModel;
 
 import java.util.HashMap;
@@ -27,10 +28,10 @@ public class ToolView extends StackPane {
 
     private final ImageView imageView = new ImageView();
 
-    private final CellValue current;
+    private final GameObject current;
     private static ToolView selected = null;
 
-    ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, CellValue value) {
+    ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, GameObject value) {
         this.viewModel = toolViewModel;
         this.widthProperty = cellWidthProperty;
         this.current = value;
