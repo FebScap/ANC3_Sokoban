@@ -1,11 +1,8 @@
 package sokoban.model.Cell;
 
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.util.Pair;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Cell {
     private final ElementStack stack;
@@ -15,17 +12,17 @@ public class Cell {
         this.stack = new ElementStack();
     }
 
-    public HashMap<Integer, ObjectProperty<GameObject>> getElements() {
-        return this.stack.getElements()getElements();
+    public MapProperty<Integer, GameObject> getElementsProperty() {
+        return this.stack.getElementsProperty();
     }
     public void addElement(GameObject value) {
         this.stack.addElement(value);
     }
 
     public boolean isEmpty() {
-        return this.stack.getElements().get(0).getValue() instanceof Ground
-                && this.stack.getElements().get(1).getValue() == null
-                && this.stack.getElements().get(2).getValue() == null;
+        return this.stack.getElementsProperty().getValue().get(0) instanceof Ground
+                && this.stack.getElementsProperty().getValue().get(1) == null
+                && this.stack.getElementsProperty().getValue().get(2) == null;
     }
 
     public void setPlayerPos (int line, int col) {

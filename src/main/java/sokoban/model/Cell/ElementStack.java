@@ -1,42 +1,41 @@
 package sokoban.model.Cell;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
-import java.util.HashMap;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleMapProperty;
 
 public class ElementStack {
-    private final HashMap <Integer, ObjectProperty<GameObject>> elements = new HashMap<>();
+    private final MapProperty<Integer, GameObject> elements = new SimpleMapProperty<>();
     public ElementStack() {
-        elements.put(0, new SimpleObjectProperty<>(new Ground()));
-        elements.put(1, new SimpleObjectProperty<>());
-        elements.put(2, new SimpleObjectProperty<>());
+        elements.getValue().put(0, new Ground());
+        elements.getValue().put(1, null);
+        elements.getValue().put(2, null);
     }
 
     public void addElement(GameObject element) {
         if (element instanceof Wall || element instanceof Ground) {
-            elements.get(0).setValue(element);
-            elements.get(1).setValue(null);
-            elements.get(2).setValue(null);
+            elements.getValue().put(0, element);
+            elements.getValue().put(1, null);
+            elements.getValue().put(2, null);
         } else if (element instanceof Player || element instanceof Box) {
-            elements.get(1).setValue(element);
+            elements.getValue().put(1, element);
         } else if (element instanceof Target) {
-            elements.get(2).setValue(element);
+            elements.getValue().put(2, element);
         }
     }
 
     public void removeElement(GameObject element) {
         //TODO
         if (element instanceof Wall) {
-            elements.get(0).setValue(new Ground());
+            elements.getValue().put(0, new Ground());
         } else if (element instanceof Player || element instanceof Box) {
-            elements.get(1).setValue(null);
+            elements.getValue().put(1, null);
         } else if (element instanceof Target) {
-            elements.get(2).setValue(null);
+            elements.getValue().put(2, null);
+
         }
     }
 
-    public HashMap<Integer, ObjectProperty<GameObject>> getElements() {
+    public MapProperty<Integer, GameObject> getElementsProperty() {
         return elements;
     }
 }

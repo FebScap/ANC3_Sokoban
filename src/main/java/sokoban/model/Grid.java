@@ -2,7 +2,7 @@ package sokoban.model;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.MapProperty;
 import sokoban.model.Cell.*;
 
 import java.util.Arrays;
@@ -30,6 +30,8 @@ public class Grid {
             }
         }
 
+        //Compte le nombre de cases remplies et pas le nombre d'éléments
+
         filledCellsCount = Bindings.createLongBinding(() -> Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
@@ -39,24 +41,24 @@ public class Grid {
         filledPlayerCount = Bindings.createLongBinding(() -> Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getValue() == CellValue.PLAYER)
+                .filter(cell -> cell.getElementsProperty().getValue().get(1) instanceof Player)
                 .count());
 
         filledBoxsCount = Bindings.createLongBinding(() -> Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getValue() == CellValue.BOX)
+                .filter(cell -> cell.getElementsProperty().getValue().get(1) instanceof Box)
                 .count());
 
         filledTargetsCount = Bindings.createLongBinding(() -> Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getValue() == CellValue.TARGET)
+                .filter(cell -> cell.getElementsProperty().getValue().get(2) instanceof Target)
                 .count());
 
     }
 
-    void play(int line, int col, CellValue value) {
+    void play(int line, int col, GameObject value) {
         this.setCell(line, col, value);
         filledCellsCount.invalidate();
         filledPlayerCount.invalidate();
@@ -71,16 +73,12 @@ public class Grid {
         return this.col;
     }
 
-    ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
-        return matrix[line][col].valueProperty();
+    MapProperty<Integer, GameObject> valueProperty(int line, int col) {
+        return matrix[line][col].getElementsProperty();
     }
 
-    CellValue getValue(int line, int col) {
-        return matrix[line][col].getValue();
-    }
-
-    void setCell(int line, int col, CellValue value) {
-        matrix[line][col].setType(value);
+    void setCell(int line, int col, GameObject value) {
+        matrix[line][col].addElement(value);
     }
 
     public boolean isEmpty(int line, int col) {
