@@ -7,10 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import sokoban.model.Cell.Cell;
+import sokoban.model.Cell.*;
 import javafx.scene.layout.StackPane;
-import sokoban.model.Cell.CellValue;
-import sokoban.model.Cell.GameObject;
 import sokoban.viewmodel.ToolViewModel;
 
 import java.util.HashMap;
@@ -18,12 +16,12 @@ import java.util.HashMap;
 public class ToolView extends StackPane {
     private final ToolViewModel viewModel;
     private final DoubleBinding widthProperty;
-    private static final HashMap<CellValue, Image> images = new HashMap<>(){{
-        put(CellValue.BOX, new Image("box.png"));
-        put(CellValue.TARGET, new Image("goal.png"));
-        put(CellValue.GROUND, new Image("ground.png"));
-        put(CellValue.PLAYER, new Image("player.png"));
-        put(CellValue.WALL, new Image("wall.png"));
+    private static final HashMap<GameObject, Image> images = new HashMap<>(){{
+        put(new Box(), new Image("box.png"));
+        put(new Target(), new Image("goal.png"));
+        put(new Ground(), new Image("ground.png"));
+        put(new Player(), new Image("player.png"));
+        put(new Wall(), new Image("wall.png"));
     }};
 
     private final ImageView imageView = new ImageView();

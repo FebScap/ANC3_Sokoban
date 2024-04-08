@@ -2,9 +2,10 @@ package sokoban.model.Cell;
 
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
 
 public class ElementStack {
-    private final MapProperty<Integer, GameObject> elements = new SimpleMapProperty<>();
+    private final MapProperty<Integer, GameObject> elements = new SimpleMapProperty<>(FXCollections.observableHashMap());
     public ElementStack() {
         elements.put(0, new Ground());
         elements.put(1, null);
