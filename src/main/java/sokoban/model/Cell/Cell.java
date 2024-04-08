@@ -6,7 +6,7 @@ import javafx.util.Pair;
 
 public class Cell {
     private final ElementStack stack;
-    private static Player player = new Player();
+    private static final Player player = new Player();
     private static ObjectProperty<Pair<Integer, Integer>> playerPos;
     public Cell() {
         this.stack = new ElementStack();

@@ -1,13 +1,8 @@
 package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import sokoban.model.Cell.CellValue;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
+import javafx.beans.property.MapProperty;
+import sokoban.model.Cell.GameObject;
 
 public class Board {
     private final int MAX_FILLED_CELLS;
@@ -34,8 +29,8 @@ public class Board {
         return this.grid;
     }
 
-    public void play(int line, int col, CellValue value) {
-        if (!isFull() || grid.getValue(line, col) != CellValue.GROUND) {
+    public void play(int line, int col, GameObject value) {
+        if (!isFull()) {
             grid.play(line, col, value);
         }
     }
@@ -52,7 +47,7 @@ public class Board {
         return validatePlayer.get();
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+    public MapProperty<Integer, GameObject> valueProperty(int line, int col) {
         return grid.valueProperty(line, col);
     }
 
