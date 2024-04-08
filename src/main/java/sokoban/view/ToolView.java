@@ -2,14 +2,13 @@ package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import sokoban.model.Cell.*;
 import javafx.scene.layout.StackPane;
-import sokoban.model.Cell.Cell;
-import sokoban.model.Cell.CellValue;
-import sokoban.viewmodel.CellViewModel;
 import sokoban.viewmodel.ToolViewModel;
 
 import java.util.HashMap;
@@ -28,11 +27,13 @@ public class ToolView extends StackPane {
     private final ImageView imageView = new ImageView();
 
     private final CellValue current;
+    private static ToolView selected = null;
 
     ToolView(ToolViewModel toolViewModel, DoubleBinding cellWidthProperty, CellValue value) {
         this.viewModel = toolViewModel;
         this.widthProperty = cellWidthProperty;
         this.current = value;
+
 
         setAlignment(Pos.CENTER);
         imageView.setImage(images.get(value));
@@ -54,6 +55,13 @@ public class ToolView extends StackPane {
 
     private void onClickEvent(MouseEvent mouseEvent) {
         MenuView.setCellValue(current);
+        ToolView cell = (ToolView) mouseEvent.getSource();
+        cell.setBorder(new Border(new BorderStroke(Color.BLUE,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
+        if (selected != null) {
+            selected.setBorder(null);
+        }
+        selected = cell;
     }
 
     private void layoutControls() {
