@@ -78,6 +78,11 @@ public class Grid {
     }
 
     void setCell(int line, int col, GameObject value) {
+        if (value instanceof Player) {
+            //suppr ancienne pos player
+            //suppr player avec removeElement de ElementStack
+            //saveposplayer
+        }
         matrix[line][col].addElement(value);
     }
 
