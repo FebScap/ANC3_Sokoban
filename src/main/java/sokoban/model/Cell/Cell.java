@@ -19,6 +19,10 @@ public class Cell {
         this.stack.addElement(value);
     }
 
+    public void removeElement(GameObject value) {
+        this.stack.removeElement(value);
+    }
+
     public boolean isEmpty() {
         return this.stack.getElementsProperty().getValue().get(0) instanceof Ground
                 && this.stack.getElementsProperty().getValue().get(1) == null
