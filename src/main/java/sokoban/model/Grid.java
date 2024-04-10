@@ -1,8 +1,11 @@
 package sokoban.model;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import sokoban.model.Cell.*;
 
 import java.util.Arrays;
@@ -17,7 +20,8 @@ public class Grid {
     private final LongBinding filledPlayerCount;
     private final LongBinding filledBoxsCount;
     private final LongBinding filledTargetsCount;
-
+    private final IntegerProperty posPlayerLine = new SimpleIntegerProperty();
+    private final IntegerProperty posPlayerCol = new SimpleIntegerProperty();
 
     public Grid(int line, int col) {
         this.line = line;
@@ -78,10 +82,14 @@ public class Grid {
     }
 
     void setCell(int line, int col, GameObject value) {
+        if (value instanceof Player && filledPlayerCount.get() == 1) {
+            matrix[getPosPlayerLine()][getPosPlayerCol()].removeElement(value);
+            setPosPlayerLine(line);
+            setPosPlayerCol(col);
+        }
         if (value instanceof Player) {
-            //suppr ancienne pos player
-            //suppr player avec removeElement de ElementStack
-            //saveposplayer
+            setPosPlayerLine(line);
+            setPosPlayerCol(col);
         }
         matrix[line][col].addElement(value);
     }
@@ -95,4 +103,27 @@ public class Grid {
     public LongBinding filledTargetsCountProperty() {return filledTargetsCount;}
     public LongBinding filledBoxsCountProperty() {return filledBoxsCount;}
 
+    public int getPosPlayerLine() {
+        return posPlayerLine.get();
+    }
+
+    public IntegerProperty posPlayerLineProperty() {
+        return posPlayerLine;
+    }
+
+    public int getPosPlayerCol() {
+        return posPlayerCol.get();
+    }
+
+    public IntegerProperty posPlayerColProperty() {
+        return posPlayerCol;
+    }
+
+    public void setPosPlayerLine(int posPlayerLine) {
+        this.posPlayerLine.set(posPlayerLine);
+    }
+
+    public void setPosPlayerCol(int posPlayerCol) {
+        this.posPlayerCol.set(posPlayerCol);
+    }
 }
