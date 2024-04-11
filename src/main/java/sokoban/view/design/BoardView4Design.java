@@ -169,12 +169,6 @@ public class BoardView4Design extends BoardView {
                     file);
         }
 
-        // Grille carrée
-//        gridView.minHeightProperty().bind(gridWidth);
-//        gridView.minWidthProperty().bind(gridWidth);
-//        gridView.maxHeightProperty().bind(gridWidth);
-//        gridView.maxWidthProperty().bind(gridWidth);
-
         //creation du menu
         MenuView menuView = new MenuView(boardViewModel4Design.getMenuViewModel(), menuWidth);
         menuView.maxWidthProperty().bind(widthProperty());

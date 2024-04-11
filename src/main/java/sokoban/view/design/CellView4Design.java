@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -14,26 +13,11 @@ import sokoban.model.api.cell.*;
 import sokoban.view.api.CellView;
 import sokoban.viewmodel.design.CellViewModel4Design;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 class CellView4Design extends CellView {
-
-    private static final HashMap<CellValue, Image> images = new HashMap<>(){{
-        put(CellValue.BOX, new Image("box.png"));
-        put(CellValue.TARGET, new Image("goal.png"));
-        put(CellValue.GROUND, new Image("ground.png"));
-        put(CellValue.PLAYER, new Image("player.png"));
-        put(CellValue.WALL, new Image("wall.png"));
-    }};
-
     private final CellViewModel4Design viewModel;
-    private final DoubleBinding widthProperty;
-
-    private final ImageView imageView = new ImageView();
-    private final ImageView imageViewMid = new ImageView();
-    private final ImageView imageViewTop = new ImageView();
 
     CellView4Design(CellViewModel4Design cellViewModel, DoubleBinding cellWidthProperty, List<GameObject> elements) {
         this.viewModel = cellViewModel;
