@@ -138,6 +138,7 @@ public class BoardViewModel4Design extends BoardViewModel {
      * <p>
      * Type 0 : Open a dialog to create a new file
      * Type 1 : Open a file
+     * Type 1 : Change the application title with modified star
      */
     public void fileModified(Stage stage, int type) {
         File file = new File("src/main/resources/temp.xsb");

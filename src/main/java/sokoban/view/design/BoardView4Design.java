@@ -2,16 +2,21 @@ package sokoban.view.design;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sokoban.model.design.Board4Design;
+import sokoban.model.play.Board4Play;
 import sokoban.view.api.BoardView;
+import sokoban.view.play.BoardView4Play;
 import sokoban.viewmodel.design.BoardViewModel4Design;
+import sokoban.viewmodel.play.BoardViewModel4Play;
 
 import java.io.File;
 import java.util.Objects;
@@ -19,6 +24,7 @@ import java.util.Objects;
 public class BoardView4Design extends BoardView {
     // ViewModel
     private final BoardViewModel4Design boardViewModel4Design;
+    private final Stage primaryStage;
 
     // Constantes de mise en page
     private static final int SCENE_MIN_WIDTH = 800;
@@ -40,11 +46,13 @@ public class BoardView4Design extends BoardView {
 
     public BoardView4Design(Stage primaryStage, BoardViewModel4Design boardViewModel4Design) {
         this.boardViewModel4Design = boardViewModel4Design;
+        this.primaryStage = primaryStage;
         start(primaryStage, null);
     }
 
     public BoardView4Design(Stage primaryStage, BoardViewModel4Design boardViewModel4Design, File file) {
         this.boardViewModel4Design = boardViewModel4Design;
+        this.primaryStage = primaryStage;
         start(primaryStage, file);
     }
 
@@ -72,7 +80,6 @@ public class BoardView4Design extends BoardView {
         this.setOnMouseClicked(e -> boardViewModel4Design.fileModified(stage, 2));
         createGrid(file);
         createHeader(stage);
-
         setupPlayButton();
     }
 
@@ -80,6 +87,18 @@ public class BoardView4Design extends BoardView {
         buttonPane.getChildren().add(playButton);
         setBottom(buttonPane);
 
+        //TODO VALIDATION D'ACTIVATION DU BUTTON PLAY
+        //playButton.setDisable(true);
+        //playButton.disabledProperty()
+
+        playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Board4Play board4Play = new Board4Play(10,15);
+                BoardViewModel4Play vm = new BoardViewModel4Play(board4Play);
+                new BoardView4Play(primaryStage, vm, new File("src/main/resources/level.xsb"));
+            }
+        });
     }
 
     private void createHeader(Stage stage) {

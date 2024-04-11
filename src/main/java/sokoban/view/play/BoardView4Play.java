@@ -2,12 +2,19 @@ package sokoban.view.play;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sokoban.model.design.Board4Design;
 import sokoban.view.api.BoardView;
+import sokoban.view.design.BoardView4Design;
+import sokoban.viewmodel.design.BoardViewModel4Design;
 import sokoban.viewmodel.play.BoardViewModel4Play;
 
 import java.io.File;
@@ -16,6 +23,7 @@ import java.util.Objects;
 public class BoardView4Play extends BoardView {
     // ViewModel
     private final BoardViewModel4Play boardViewModel4Play;
+    private final Stage primaryStage;
 
     // Constantes de mise en page
     private static final int SCENE_MIN_WIDTH = 800;
@@ -28,9 +36,12 @@ public class BoardView4Play extends BoardView {
     private final Label goalsReachedText = new Label("Number of goals reached: ");
 
     private final VBox headerBox = new VBox();
+    private final Button finishButton = new Button("Finish");
+    private final StackPane buttonPane = new StackPane();
 
     public BoardView4Play(Stage primaryStage, BoardViewModel4Play boardViewModel4Play, File file) {
         this.boardViewModel4Play = boardViewModel4Play;
+        this.primaryStage = primaryStage;
         start(primaryStage, file);
     }
 
@@ -53,6 +64,20 @@ public class BoardView4Play extends BoardView {
         stage.setTitle("Sokoban");
         createGrid(file);
         createHeader(stage);
+        setupPlayButton();
+    }
+
+    private void setupPlayButton() {
+        buttonPane.getChildren().add(finishButton);
+        setBottom(buttonPane);
+        finishButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Board4Design board4Design = new Board4Design(10,15);
+                BoardViewModel4Design vm = new BoardViewModel4Design(board4Design);
+                new BoardView4Design(primaryStage, vm);
+            }
+        });
     }
 
     private void createHeader(Stage stage) {
