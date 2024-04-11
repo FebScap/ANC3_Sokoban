@@ -4,10 +4,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -37,6 +35,8 @@ public class BoardView4Design extends BoardView {
     private final VBox headerBox = new VBox();
     private final MenuBar menuBar = new MenuBar();
     private final Menu menuFile = new Menu("File");
+    private final Button playButton = new Button("Play");
+    private final StackPane buttonPane = new StackPane();
 
     public BoardView4Design(Stage primaryStage, BoardViewModel4Design boardViewModel4Design) {
         this.boardViewModel4Design = boardViewModel4Design;
@@ -72,6 +72,14 @@ public class BoardView4Design extends BoardView {
         this.setOnMouseClicked(e -> boardViewModel4Design.fileModified(stage, 2));
         createGrid(file);
         createHeader(stage);
+
+        setupPlayButton();
+    }
+
+    private void setupPlayButton() {
+        buttonPane.getChildren().add(playButton);
+        setBottom(buttonPane);
+
     }
 
     private void createHeader(Stage stage) {
