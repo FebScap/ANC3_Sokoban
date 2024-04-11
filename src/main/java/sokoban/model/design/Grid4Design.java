@@ -18,13 +18,10 @@ public class Grid4Design extends Grid {
     private final int col;
 
     private final Cell4Design[][] matrix;
-
     private final LongBinding filledCellsCount;
     private final LongBinding filledPlayerCount;
     private final LongBinding filledBoxsCount;
     private final LongBinding filledTargetsCount;
-    private final IntegerProperty posPlayerLine = new SimpleIntegerProperty();
-    private final IntegerProperty posPlayerCol = new SimpleIntegerProperty();
 
     public Grid4Design(int line, int col) {
         this.line = line;
@@ -65,6 +62,19 @@ public class Grid4Design extends Grid {
 
     }
 
+    protected void setCell(int line, int col, GameObject value) {
+        if (value instanceof Player && filledPlayerCount.get() == 1) {
+            matrix[getPosPlayerLine()][getPosPlayerCol()].removeElement(value);
+            setPosPlayerLine(line);
+            setPosPlayerCol(col);
+        }
+        if (value instanceof Player) {
+            setPosPlayerLine(line);
+            setPosPlayerCol(col);
+        }
+        matrix[line][col].addElement(value);
+    }
+
     void play(int line, int col, GameObject value) {
         this.setCell(line, col, value);
         filledCellsCount.invalidate();
@@ -84,19 +94,6 @@ public class Grid4Design extends Grid {
         return matrix[line][col].getElementsProperty();
     }
 
-    void setCell(int line, int col, GameObject value) {
-        if (value instanceof Player && filledPlayerCount.get() == 1) {
-            matrix[getPosPlayerLine()][getPosPlayerCol()].removeElement(value);
-            setPosPlayerLine(line);
-            setPosPlayerCol(col);
-        }
-        if (value instanceof Player) {
-            setPosPlayerLine(line);
-            setPosPlayerCol(col);
-        }
-        matrix[line][col].addElement(value);
-    }
-
     public boolean isEmpty(int line, int col) {
         return matrix[line][col].isEmpty();
     }
@@ -105,28 +102,4 @@ public class Grid4Design extends Grid {
     public LongBinding filledPlayerCountProperty() {return filledPlayerCount;}
     public LongBinding filledTargetsCountProperty() {return filledTargetsCount;}
     public LongBinding filledBoxsCountProperty() {return filledBoxsCount;}
-
-    public int getPosPlayerLine() {
-        return posPlayerLine.get();
-    }
-
-    public IntegerProperty posPlayerLineProperty() {
-        return posPlayerLine;
-    }
-
-    public int getPosPlayerCol() {
-        return posPlayerCol.get();
-    }
-
-    public IntegerProperty posPlayerColProperty() {
-        return posPlayerCol;
-    }
-
-    public void setPosPlayerLine(int posPlayerLine) {
-        this.posPlayerLine.set(posPlayerLine);
-    }
-
-    public void setPosPlayerCol(int posPlayerCol) {
-        this.posPlayerCol.set(posPlayerCol);
-    }
 }

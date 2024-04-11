@@ -15,8 +15,6 @@ public class Board4Design extends Board {
 
     private final BooleanBinding isFull;
     private final BooleanBinding validatePlayer;
-
-
     private final Grid4Design grid4Design;
 
     public Board4Design(int line, int col) {
