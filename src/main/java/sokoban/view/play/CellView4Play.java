@@ -3,12 +3,9 @@ package sokoban.view.play;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import sokoban.model.api.cell.*;
 import sokoban.view.api.CellView;
 import sokoban.view.design.MenuView;
@@ -52,37 +49,26 @@ public class CellView4Play extends CellView {
         imageViewMid.fitWidthProperty().bind(widthProperty);
         imageViewTop.fitWidthProperty().bind(widthProperty);
 
-
-        // un clic sur la cellule permet de jouer celle-ci
-        this.setOnMouseClicked(this::playEvent);
-
-        //DRAG EVENT
-        this.setOnDragDetected(mouseEvent -> this.startFullDrag());
-        this.setOnMouseDragOver(this::playEvent);
-
-        // gère le survol de la cellule avec la souris
-        hoverProperty().addListener(this::hoverChanged);
-
         // quand la cellule change de valeur, adapter l'image affichée
         cellViewModel4Play.valueProperty().addListener(this::onValueChanged);
     }
 
     private void playEvent(MouseEvent e) {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            switch (MenuView.cellValue) {
-                case PLAYER -> cellViewModel4Play.play(new Player());
-                case BOX -> cellViewModel4Play.play(new Box());
-                case WALL -> cellViewModel4Play.play(new Wall());
-                case GROUND -> cellViewModel4Play.play(new Ground());
-                case TARGET -> cellViewModel4Play.play(new Target());
-            }
-        } if (e.getButton() == MouseButton.SECONDARY){
+        switch (MenuView.cellValue) {
+            case PLAYER -> cellViewModel4Play.play(new Player());
+            case BOX -> cellViewModel4Play.play(new Box());
+            case WALL -> cellViewModel4Play.play(new Wall());
+            case GROUND -> cellViewModel4Play.play(new Ground());
+            case TARGET -> cellViewModel4Play.play(new Target());
+        }
+        if (e.getButton() == MouseButton.SECONDARY){
             cellViewModel4Play.play(new Ground());
         }
     }
 
 
     private void onValueChanged(ObservableValue<? extends Map<Integer, GameObject>> observableValue, Map<Integer, GameObject> oldValue, Map<Integer, GameObject> newValue) {
+        System.out.println("value changed");
         setImage(imageView, newValue);
     }
 
@@ -107,15 +93,5 @@ public class CellView4Play extends CellView {
         imageView.setImage(null);
         imageViewMid.setImage(null);
         imageViewTop.setImage(null);
-    }
-
-    private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
-        if (newVal) {
-            Lighting lighting = new Lighting();
-            lighting.setLight(new Light.Distant(0, 100, Color.GREY));
-            imageView.setEffect(lighting);
-        } else {
-            imageView.setEffect(null);
-        }
     }
 }

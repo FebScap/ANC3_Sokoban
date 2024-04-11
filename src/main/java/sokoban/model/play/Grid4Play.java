@@ -2,15 +2,10 @@ package sokoban.model.play;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.LongBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import sokoban.model.api.Grid;
-import sokoban.model.api.cell.Box;
 import sokoban.model.api.cell.GameObject;
 import sokoban.model.api.cell.Player;
-import sokoban.model.api.cell.Target;
-import sokoban.model.design.Cell4Design;
 
 import java.util.Arrays;
 

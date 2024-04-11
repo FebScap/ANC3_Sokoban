@@ -19,6 +19,38 @@ public class Board4Play extends Board {
         grid4Play.play(line, col, value);
     }
 
+    /** Move the player to the selected direction
+     * <p>
+     * direction 0 : up
+     * direction 1 : right
+     * direction 2 : down
+     * direction 3 : left
+     */
+    public void movePlayer(int direction) {
+        switch (direction) {
+            case 0 :
+                if (getGrid().getPosPlayerCol() != 0) {
+                    getGrid().setPosPlayerCol(getGrid().getPosPlayerCol() - 1);
+                }
+                break;
+            case 1 :
+                if (getGrid().getPosPlayerLine() != getGrid().getPosPlayerLine()) {
+                    getGrid().setPosPlayerLine(getGrid().getPosPlayerCol() + 1);
+                }
+                break;
+            case 2 :
+                if (getGrid().getPosPlayerCol() != getGrid().getCol()) {
+                    getGrid().setPosPlayerCol(getGrid().getPosPlayerCol() + 1);
+                }
+                break;
+            case 3 :
+                if (getGrid().getPosPlayerLine() != 0) {
+                    getGrid().setPosPlayerLine(getGrid().getPosPlayerCol() - 1);
+                }
+                break;
+        }
+    }
+
     public MapProperty<Integer, GameObject> valueProperty(int line, int col) {
         return grid4Play.valueProperty(line, col);
     }

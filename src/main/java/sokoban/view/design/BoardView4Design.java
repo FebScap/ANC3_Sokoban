@@ -12,11 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sokoban.model.design.Board4Design;
-import sokoban.model.play.Board4Play;
 import sokoban.view.api.BoardView;
-import sokoban.view.play.BoardView4Play;
 import sokoban.viewmodel.design.BoardViewModel4Design;
-import sokoban.viewmodel.play.BoardViewModel4Play;
 
 import java.io.File;
 import java.util.Objects;
@@ -94,9 +91,7 @@ public class BoardView4Design extends BoardView {
         playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Board4Play board4Play = new Board4Play(10,15);
-                BoardViewModel4Play vm = new BoardViewModel4Play(board4Play);
-                new BoardView4Play(primaryStage, vm, new File("src/main/resources/level.xsb"));
+                boardViewModel4Design.playButton(primaryStage);
             }
         });
     }

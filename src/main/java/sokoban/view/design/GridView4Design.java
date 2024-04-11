@@ -55,20 +55,27 @@ class GridView4Design extends GridView {
                     switch (lines.get(i).split("")[j]) {
                         case " ":
                             objects.add(new Ground());
+                            break;
                         case "#":
                             objects.add(new Wall());
+                            break;
                         case ".":
                             objects.add(new Target());
+                            break;
                         case "$":
                             objects.add(new Box());
+                            break;
                         case "*":
                             objects.add(new Box());
                             objects.add(new Target());
+                            break;
                         case "@":
                             objects.add(new Player());
+                            break;
                         case "+":
                             objects.add(new Player());
                             objects.add(new Target());
+                            break;
                     }
                     CellView4Design cellView4Design = new CellView4Design(
                             gridViewModel.getCellViewModel(i, j),

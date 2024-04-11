@@ -8,10 +8,13 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import sokoban.model.api.cell.*;
 import sokoban.model.design.Board4Design;
+import sokoban.model.play.Board4Play;
 import sokoban.utils.dialog.DoSave;
 import sokoban.utils.dialog.NewFile;
 import sokoban.view.design.BoardView4Design;
+import sokoban.view.play.BoardView4Play;
 import sokoban.viewmodel.api.BoardViewModel;
+import sokoban.viewmodel.play.BoardViewModel4Play;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -124,6 +127,7 @@ public class BoardViewModel4Design extends BoardViewModel {
                 List<String> lines = Files.readAllLines(file.toPath());
                 int line = lines.size();
                 int col = lines.get(0).length();
+                System.out.println(line + " " + col);
 
                 Board4Design newBoard4Design = new Board4Design(line, col);
                 BoardViewModel4Design vm = new BoardViewModel4Design(newBoard4Design);
@@ -208,5 +212,22 @@ public class BoardViewModel4Design extends BoardViewModel {
             }
         }
         return str.toString();
+    }
+
+    public void playButton(Stage primaryStage) {
+        int line = board4Design.getGrid().getLine();
+        int col = board4Design.getGrid().getCol();
+
+        File file = new File("src/main/resources/playing.xsb");
+        String str = fileStringBuilder();
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(file), StandardCharsets.UTF_8))) {
+            writer.write(str);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Board4Play board4Play = new Board4Play(line,col);
+        BoardViewModel4Play vm = new BoardViewModel4Play(board4Play);
+        new BoardView4Play(primaryStage, vm, new File("src/main/resources/playing.xsb"));
     }
 }

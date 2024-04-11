@@ -32,20 +32,27 @@ public class GridView4Play extends GridView {
                     switch (lines.get(i).split("")[j]) {
                         case " ":
                             objects.add(new Ground());
+                            break;
                         case "#":
                             objects.add(new Wall());
+                            break;
                         case ".":
                             objects.add(new Target());
+                            break;
                         case "$":
                             objects.add(new Box());
+                            break;
                         case "*":
                             objects.add(new Box());
                             objects.add(new Target());
+                            break;
                         case "@":
                             objects.add(new Player());
+                            break;
                         case "+":
                             objects.add(new Player());
                             objects.add(new Target());
+                            break;
                     }
                     CellView4Play cellView4Play = new CellView4Play(
                             gridViewModel.getCellViewModel(i, j),

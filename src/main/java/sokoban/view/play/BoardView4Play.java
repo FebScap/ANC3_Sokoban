@@ -2,19 +2,16 @@ package sokoban.view.play;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sokoban.model.design.Board4Design;
 import sokoban.view.api.BoardView;
-import sokoban.view.design.BoardView4Design;
-import sokoban.viewmodel.design.BoardViewModel4Design;
 import sokoban.viewmodel.play.BoardViewModel4Play;
 
 import java.io.File;
@@ -64,19 +61,27 @@ public class BoardView4Play extends BoardView {
         stage.setTitle("Sokoban");
         createGrid(file);
         createHeader(stage);
-        setupPlayButton();
+        setupFinishButton();
+
+        // Keyboard events
+        this.setOnKeyReleased(this::onKeyPressedEvent);
     }
 
-    private void setupPlayButton() {
+    private void onKeyPressedEvent(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCode());
+        switch (keyEvent.getCode()) {
+            case Z, UP -> boardViewModel4Play.movePlayer(0);
+            case D, RIGHT -> boardViewModel4Play.movePlayer(1);
+            case S, DOWN -> boardViewModel4Play.movePlayer(2);
+            case Q, LEFT -> boardViewModel4Play.movePlayer(3);
+        }
+    }
+
+    private void setupFinishButton() {
         buttonPane.getChildren().add(finishButton);
         setBottom(buttonPane);
-        finishButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Board4Design board4Design = new Board4Design(10,15);
-                BoardViewModel4Design vm = new BoardViewModel4Design(board4Design);
-                new BoardView4Design(primaryStage, vm);
-            }
+        finishButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            boardViewModel4Play.finishButton(primaryStage);
         });
     }
 
