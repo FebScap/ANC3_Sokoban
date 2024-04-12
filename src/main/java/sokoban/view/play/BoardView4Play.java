@@ -68,7 +68,6 @@ public class BoardView4Play extends BoardView {
     }
 
     private void onKeyPressedEvent(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getCode());
         switch (keyEvent.getCode()) {
             case Z, UP -> boardViewModel4Play.movePlayer(0);
             case D, RIGHT -> boardViewModel4Play.movePlayer(1);

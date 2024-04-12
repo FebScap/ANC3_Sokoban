@@ -47,6 +47,9 @@ public class Grid4Play extends Grid {
         filledPlayerCount.invalidate();
     }
 
+    public MapProperty<Integer, GameObject> getCellElements(int line, int col) {
+        return matrix[line][col].getElementsProperty();
+    }
 
     MapProperty<Integer, GameObject> valueProperty(int line, int col) {
         return matrix[line][col].getElementsProperty();
