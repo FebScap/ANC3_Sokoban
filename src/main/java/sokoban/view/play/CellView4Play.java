@@ -68,7 +68,6 @@ public class CellView4Play extends CellView {
 
 
     private void onValueChanged(ObservableValue<? extends Map<Integer, GameObject>> observableValue, Map<Integer, GameObject> oldValue, Map<Integer, GameObject> newValue) {
-        System.out.println("value changed");
         setImage(imageView, newValue);
     }
 

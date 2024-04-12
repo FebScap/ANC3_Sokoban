@@ -3,6 +3,7 @@ package sokoban.model.play;
 import javafx.beans.property.MapProperty;
 import sokoban.model.api.Board;
 import sokoban.model.api.cell.GameObject;
+import sokoban.model.api.cell.Player;
 
 public class Board4Play extends Board {
     private final Grid4Play grid4Play;
@@ -29,23 +30,23 @@ public class Board4Play extends Board {
     public void movePlayer(int direction) {
         switch (direction) {
             case 0 :
-                if (getGrid().getPosPlayerCol() != 0) {
-                    getGrid().setPosPlayerCol(getGrid().getPosPlayerCol() - 1);
+                if (getGrid().getPosPlayerLine() > 0) {
+                    getGrid().setCell(getGrid().getPosPlayerLine()  - 1, getGrid().getPosPlayerCol(), new Player());
                 }
                 break;
             case 1 :
-                if (getGrid().getPosPlayerLine() != getGrid().getPosPlayerLine()) {
-                    getGrid().setPosPlayerLine(getGrid().getPosPlayerCol() + 1);
+                if (getGrid().getPosPlayerCol() < getGrid().getCol() - 1) {
+                    getGrid().setCell(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() + 1, new Player());
                 }
                 break;
             case 2 :
-                if (getGrid().getPosPlayerCol() != getGrid().getCol()) {
-                    getGrid().setPosPlayerCol(getGrid().getPosPlayerCol() + 1);
+                if (getGrid().getPosPlayerLine() < getGrid().getLine() - 1) {
+                    getGrid().setCell(getGrid().getPosPlayerLine() + 1, getGrid().getPosPlayerCol(), new Player());
                 }
                 break;
             case 3 :
-                if (getGrid().getPosPlayerLine() != 0) {
-                    getGrid().setPosPlayerLine(getGrid().getPosPlayerCol() - 1);
+                if (getGrid().getPosPlayerCol() > 0) {
+                    getGrid().setCell(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() - 1, new Player());
                 }
                 break;
         }
