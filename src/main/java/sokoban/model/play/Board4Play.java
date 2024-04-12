@@ -2,6 +2,7 @@ package sokoban.model.play;
 
 import javafx.beans.property.MapProperty;
 import sokoban.model.api.Board;
+import sokoban.model.api.cell.Box;
 import sokoban.model.api.cell.GameObject;
 import sokoban.model.api.cell.Player;
 import sokoban.model.api.cell.Wall;
@@ -29,36 +30,80 @@ public class Board4Play extends Board {
      * direction 3 : left
      */
     public void movePlayer(int direction) {
+        int playerCol = getGrid().getPosPlayerCol();
+        int playerLine = getGrid().getPosPlayerLine();
         switch (direction) {
             case 0 :
-                if (getGrid().getPosPlayerLine() > 0
-                        && playerCanMove(getGrid().getPosPlayerLine()  - 1, getGrid().getPosPlayerCol())) {
-                    getGrid().setCell(getGrid().getPosPlayerLine()  - 1, getGrid().getPosPlayerCol(), new Player());
+                if (playerLine > 0 && playerCanMove(playerLine - 1, playerCol)
+                        && tryMoveBox(playerLine - 1, playerCol, 0)) {
+                    getGrid().setCell(playerLine - 1, playerCol, new Player());
                 }
                 break;
             case 1 :
-                if (getGrid().getPosPlayerCol() < getGrid().getCol() - 1
-                && playerCanMove(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() + 1)) {
-                    getGrid().setCell(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() + 1, new Player());
+                if (playerCol < getGrid().getCol() - 1 && playerCanMove(playerLine, playerCol + 1)
+                        && tryMoveBox(playerLine, playerCol + 1, 1)) {
+                    getGrid().setCell(playerLine, playerCol + 1, new Player());
                 }
                 break;
             case 2 :
-                if (getGrid().getPosPlayerLine() < getGrid().getLine() - 1
-                && playerCanMove(getGrid().getPosPlayerLine() + 1, getGrid().getPosPlayerCol())) {
-                    getGrid().setCell(getGrid().getPosPlayerLine() + 1, getGrid().getPosPlayerCol(), new Player());
+                if (playerLine < getGrid().getLine() - 1 && playerCanMove(playerLine + 1, playerCol)
+                        && tryMoveBox(playerLine + 1, playerCol, 2)) {
+                    getGrid().setCell(playerLine + 1, playerCol, new Player());
                 }
                 break;
             case 3 :
-                if (getGrid().getPosPlayerCol() > 0
-                && playerCanMove(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() - 1)) {
-                    getGrid().setCell(getGrid().getPosPlayerLine(), getGrid().getPosPlayerCol() - 1, new Player());
+                if (playerCol > 0 && playerCanMove(playerLine, playerCol - 1)
+                        && tryMoveBox(playerLine, playerCol - 1, 3)) {
+                    getGrid().setCell(playerLine, playerCol - 1, new Player());
                 }
                 break;
         }
     }
 
     public Boolean playerCanMove(int line, int col) {
-        return !(getGrid().getCellElements(line, col).get(0) instanceof Wall);
+        return !(getGrid().valueProperty(line, col).get(0) instanceof Wall);
+    }
+
+    public Boolean boxCanMove(int line, int col) {
+        return !(getGrid().valueProperty(line, col).get(0) instanceof Wall
+                    || getGrid().valueProperty(line, col).get(1) instanceof Box);
+    }
+
+    public boolean tryMoveBox(int line, int col, int direction) {
+        Cell4Play cellToGo = grid4Play.getCell(line, col);
+        if (cellToGo.getElementsProperty().get(1) instanceof Box) {
+            switch (direction) {
+                case 0:
+                    if (line-1 >= 0 && boxCanMove(line - 1, col)) {
+                        getGrid().setCell(line - 1, col, new Box());
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case 1:
+                    if (col+1 < getGrid().getCol() && boxCanMove(line, col + 1)) {
+                        getGrid().setCell(line, col + 1, new Box());
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case 2:
+                    if (line+1 < getGrid().getLine() && boxCanMove(line + 1, col)) {
+                        getGrid().setCell(line + 1 , col, new Box());
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case 3:
+                    if (col-1 >= 0 && boxCanMove(line, col - 1)) {
+                        getGrid().setCell(line, col - 1, new Box());
+                        return true;
+                    } else {
+                        return false;
+                    }
+            }
+        }
+        return true;
     }
 
     public MapProperty<Integer, GameObject> valueProperty(int line, int col) {

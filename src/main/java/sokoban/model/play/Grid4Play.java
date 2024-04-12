@@ -42,16 +42,16 @@ public class Grid4Play extends Grid {
         matrix[line][col].addElement(value);
     }
 
+    public Cell4Play getCell(int line, int col) {
+        return matrix[line][col];
+    }
+
     void play(int line, int col, GameObject value) {
         this.setCell(line, col, value);
         filledPlayerCount.invalidate();
     }
 
-    public MapProperty<Integer, GameObject> getCellElements(int line, int col) {
-        return matrix[line][col].getElementsProperty();
-    }
-
-    MapProperty<Integer, GameObject> valueProperty(int line, int col) {
+    public MapProperty<Integer, GameObject> valueProperty(int line, int col) {
         return matrix[line][col].getElementsProperty();
     }
 
