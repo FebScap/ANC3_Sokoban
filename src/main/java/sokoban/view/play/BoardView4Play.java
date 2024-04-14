@@ -104,9 +104,7 @@ public class BoardView4Play extends BoardView {
         headerBox.getChildren().add(victory);
         victory.setVisible(false);
         victory.setManaged(false);
-        //victory.setText("GG You won in "+ movesPlayedCount.getText());
         victory.textProperty().bind(boardViewModel4Play.getMoveCount().asString("GG You won in %d"));
-        System.out.println(boardViewModel4Play.getMoveCount());
         victory.visibleProperty().bind(boardViewModel4Play.getVictoryProperty());
         victory.managedProperty().bind(victory.visibleProperty());
     }

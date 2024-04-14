@@ -10,12 +10,12 @@ import sokoban.model.api.cell.Wall;
 
 public class Board4Play extends Board {
     private final Grid4Play grid4Play;
-    private final BooleanBinding Victory;
+    private final BooleanBinding victory;
 
 
     public Board4Play(int line, int col) {
         this.grid4Play = new Grid4Play(line, col);
-        this.Victory = grid4Play.goalsReachedCountProperty().isEqualTo(grid4Play.filledBoxsCountProperty());
+        this.victory = grid4Play.goalsReachedCountProperty().isEqualTo(grid4Play.filledBoxsCountProperty());
     }
 
     public Grid4Play getGrid() {
@@ -65,7 +65,7 @@ public class Board4Play extends Board {
     }
 
     public Boolean playerCanMove(int line, int col) {
-        return !(getGrid().valueProperty(line, col).get(0) instanceof Wall);
+        return !(getGrid().valueProperty(line, col).get(0) instanceof Wall || getVictory());
     }
 
     public Boolean boxCanMove(int line, int col) {
@@ -119,10 +119,10 @@ public class Board4Play extends Board {
     }
 
     public Boolean getVictory() {
-        return Victory.get();
+        return victory.get();
     }
 
     public BooleanBinding victoryProperty() {
-        return Victory;
+        return victory;
     }
 }

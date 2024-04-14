@@ -75,6 +75,7 @@ public class Grid4Play extends Grid {
         filledPlayerCount.invalidate();
         filledBoxsCount.invalidate();
 
+
     }
 
     public MapProperty<Integer, GameObject> valueProperty(int line, int col) {
