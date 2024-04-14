@@ -58,5 +58,6 @@ public class BoardViewModel4Play extends BoardViewModel {
     }
     public IntegerProperty getMoveCount() {return board4Play.getGrid().moveCountProperty();}
     public IntegerBinding getGoalsReachedCount() {return board4Play.getGrid().goalsReachedCountProperty();}
+    public IntegerBinding getFilledBoxsCountProperty() {return board4Play.getGrid().filledBoxsCountProperty();}
 
 }

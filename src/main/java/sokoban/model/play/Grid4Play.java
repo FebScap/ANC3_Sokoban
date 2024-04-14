@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class Grid4Play extends Grid {
     private final Cell4Play[][] matrix;
     private final IntegerProperty moveCount = new SimpleIntegerProperty(-1); //Bizarre
+    private final IntegerBinding filledBoxsCount;
     private final IntegerBinding goalsReachedCount;
     public Grid4Play(int line, int col) {
         this.line = line;
@@ -34,6 +35,12 @@ public class Grid4Play extends Grid {
                 .flatMap(Arrays::stream)
                 .filter(cell4Design -> cell4Design.getElementsProperty().getValue().get(1) instanceof Player)
                 .count());
+
+        filledBoxsCount = Bindings.createIntegerBinding(() -> Math.toIntExact(Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell4Design -> cell4Design.getElementsProperty().getValue().get(1) instanceof Box)
+                .count()));
 
         goalsReachedCount = Bindings.createIntegerBinding(() -> Math.toIntExact(Arrays
                 .stream(matrix)
@@ -79,4 +86,5 @@ public class Grid4Play extends Grid {
     public LongBinding filledPlayerCountProperty() {return filledPlayerCount;}
     public IntegerProperty moveCountProperty() {return moveCount;}
     public IntegerBinding goalsReachedCountProperty() {return goalsReachedCount;}
+    public IntegerBinding filledBoxsCountProperty() {return filledBoxsCount;}
 }

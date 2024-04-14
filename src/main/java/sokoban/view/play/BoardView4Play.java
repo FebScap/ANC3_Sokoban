@@ -97,7 +97,7 @@ public class BoardView4Play extends BoardView {
         headerBox.getChildren().add(movesPlayedCount);
 
         headerBox.getChildren().add(goalsReachedText);
-        goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("%d of "));
+        goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("%d of " + boardViewModel4Play.getFilledBoxsCountProperty().getValue()));
         headerBox.getChildren().add(goalsReachedCount);
 
     }
