@@ -1,16 +1,23 @@
 package sokoban.model.play;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import sokoban.model.api.Grid;
+import sokoban.model.api.cell.Box;
 import sokoban.model.api.cell.GameObject;
 import sokoban.model.api.cell.Player;
+import sokoban.model.api.cell.Target;
 
 import java.util.Arrays;
 
 public class Grid4Play extends Grid {
     private final Cell4Play[][] matrix;
+    private final IntegerProperty moveCount = new SimpleIntegerProperty(-1); //Bizarre
+    private final IntegerBinding goalsReachedCount;
     public Grid4Play(int line, int col) {
         this.line = line;
         this.col = col;
@@ -27,6 +34,12 @@ public class Grid4Play extends Grid {
                 .flatMap(Arrays::stream)
                 .filter(cell4Design -> cell4Design.getElementsProperty().getValue().get(1) instanceof Player)
                 .count());
+
+        goalsReachedCount = Bindings.createIntegerBinding(() -> Math.toIntExact(Arrays
+                .stream(matrix)
+                .flatMap(Arrays::stream)
+                .filter(cell4Play -> cell4Play.getElementsProperty().getValue().get(1) instanceof Box && cell4Play.getElementsProperty().getValue().get(2) instanceof Target)
+                .count()));
     }
 
     protected void setCell(int line, int col, GameObject value) {
@@ -38,7 +51,11 @@ public class Grid4Play extends Grid {
         if (value instanceof Player) {
             setPosPlayerLine(line);
             setPosPlayerCol(col);
+            moveCount.set(moveCount.get() + 1);
+            System.out.println(moveCount.get());
         }
+        goalsReachedCount.invalidate();
+        goalsReachedCount.get();
         matrix[line][col].addElement(value);
     }
 
@@ -60,4 +77,6 @@ public class Grid4Play extends Grid {
     }
 
     public LongBinding filledPlayerCountProperty() {return filledPlayerCount;}
+    public IntegerProperty moveCountProperty() {return moveCount;}
+    public IntegerBinding goalsReachedCountProperty() {return goalsReachedCount;}
 }

@@ -83,7 +83,7 @@ public class BoardView4Design extends BoardView {
     private void setupPlayButton() {
         buttonPane.getChildren().add(playButton);
         setBottom(buttonPane);
-        
+
         playButton.disableProperty().bind(
                 errorPlayer.visibleProperty().or(
                         errorBox.visibleProperty()).or(

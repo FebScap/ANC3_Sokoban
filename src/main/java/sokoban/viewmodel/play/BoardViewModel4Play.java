@@ -1,6 +1,8 @@
 package sokoban.viewmodel.play;
 
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.stage.Stage;
 import sokoban.model.design.Board4Design;
 import sokoban.model.play.Board4Play;
@@ -52,7 +54,9 @@ public class BoardViewModel4Play extends BoardViewModel {
             throw new RuntimeException(e);
         }
     }
-    public void movePlayer(int direction) {
-        board4Play.movePlayer(direction);
+    public void movePlayer(int direction) {board4Play.movePlayer(direction);
     }
+    public IntegerProperty getMoveCount() {return board4Play.getGrid().moveCountProperty();}
+    public IntegerBinding getGoalsReachedCount() {return board4Play.getGrid().goalsReachedCountProperty();}
+
 }

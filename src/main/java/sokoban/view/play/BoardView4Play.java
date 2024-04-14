@@ -30,7 +30,10 @@ public class BoardView4Play extends BoardView {
     private final Label headerLabel = new Label("Score");
 
     private final Label movesPlayedText = new Label("Number of moves played: ");
+    private final Label movesPlayedCount = new Label();
     private final Label goalsReachedText = new Label("Number of goals reached: ");
+    private final Label goalsReachedCount = new Label();
+
 
     private final VBox headerBox = new VBox();
     private final Button finishButton = new Button("Finish");
@@ -90,7 +93,12 @@ public class BoardView4Play extends BoardView {
         setTop(headerBox);
 
         headerBox.getChildren().add(movesPlayedText);
+        movesPlayedCount.textProperty().bind(boardViewModel4Play.getMoveCount().asString("%d"));
+        headerBox.getChildren().add(movesPlayedCount);
+
         headerBox.getChildren().add(goalsReachedText);
+        goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("%d of "));
+        headerBox.getChildren().add(goalsReachedCount);
 
     }
 
