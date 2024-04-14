@@ -1,5 +1,6 @@
 package sokoban.model.play;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.MapProperty;
 import sokoban.model.api.Board;
 import sokoban.model.api.cell.Box;
@@ -9,9 +10,12 @@ import sokoban.model.api.cell.Wall;
 
 public class Board4Play extends Board {
     private final Grid4Play grid4Play;
+    private final BooleanBinding Victory;
+
 
     public Board4Play(int line, int col) {
         this.grid4Play = new Grid4Play(line, col);
+        this.Victory = grid4Play.goalsReachedCountProperty().isEqualTo(grid4Play.filledBoxsCountProperty());
     }
 
     public Grid4Play getGrid() {
@@ -112,5 +116,13 @@ public class Board4Play extends Board {
 
     public boolean isEmpty(int line, int col) {
         return grid4Play.isEmpty(line, col);
+    }
+
+    public Boolean getVictory() {
+        return Victory.get();
+    }
+
+    public BooleanBinding victoryProperty() {
+        return Victory;
     }
 }

@@ -19,6 +19,7 @@ public class Grid4Play extends Grid {
     private final IntegerProperty moveCount = new SimpleIntegerProperty(-1); //Bizarre
     private final IntegerBinding filledBoxsCount;
     private final IntegerBinding goalsReachedCount;
+
     public Grid4Play(int line, int col) {
         this.line = line;
         this.col = col;
@@ -39,7 +40,7 @@ public class Grid4Play extends Grid {
         filledBoxsCount = Bindings.createIntegerBinding(() -> Math.toIntExact(Arrays
                 .stream(matrix)
                 .flatMap(Arrays::stream)
-                .filter(cell4Design -> cell4Design.getElementsProperty().getValue().get(1) instanceof Box)
+                .filter(cell4Play -> cell4Play.getElementsProperty().getValue().get(1) instanceof Box)
                 .count()));
 
         goalsReachedCount = Bindings.createIntegerBinding(() -> Math.toIntExact(Arrays
@@ -59,7 +60,6 @@ public class Grid4Play extends Grid {
             setPosPlayerLine(line);
             setPosPlayerCol(col);
             moveCount.set(moveCount.get() + 1);
-            System.out.println(moveCount.get());
         }
         goalsReachedCount.invalidate();
         goalsReachedCount.get();
@@ -73,6 +73,8 @@ public class Grid4Play extends Grid {
     void play(int line, int col, GameObject value) {
         this.setCell(line, col, value);
         filledPlayerCount.invalidate();
+        filledBoxsCount.invalidate();
+
     }
 
     public MapProperty<Integer, GameObject> valueProperty(int line, int col) {

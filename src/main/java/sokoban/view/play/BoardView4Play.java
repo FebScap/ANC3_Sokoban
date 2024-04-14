@@ -33,6 +33,7 @@ public class BoardView4Play extends BoardView {
     private final Label movesPlayedCount = new Label();
     private final Label goalsReachedText = new Label("Number of goals reached: ");
     private final Label goalsReachedCount = new Label();
+    private final Label victory = new Label();
 
 
     private final VBox headerBox = new VBox();
@@ -100,6 +101,14 @@ public class BoardView4Play extends BoardView {
         goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("%d of " + boardViewModel4Play.getFilledBoxsCountProperty().getValue()));
         headerBox.getChildren().add(goalsReachedCount);
 
+        headerBox.getChildren().add(victory);
+        victory.setVisible(false);
+        victory.setManaged(false);
+        //victory.setText("GG You won in "+ movesPlayedCount.getText());
+        victory.textProperty().bind(boardViewModel4Play.getMoveCount().asString("GG You won in %d"));
+        System.out.println(boardViewModel4Play.getMoveCount());
+        victory.visibleProperty().bind(boardViewModel4Play.getVictoryProperty());
+        victory.managedProperty().bind(victory.visibleProperty());
     }
 
     private void createGrid(File file) {

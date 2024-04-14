@@ -1,5 +1,6 @@
 package sokoban.viewmodel.play;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
@@ -59,5 +60,6 @@ public class BoardViewModel4Play extends BoardViewModel {
     public IntegerProperty getMoveCount() {return board4Play.getGrid().moveCountProperty();}
     public IntegerBinding getGoalsReachedCount() {return board4Play.getGrid().goalsReachedCountProperty();}
     public IntegerBinding getFilledBoxsCountProperty() {return board4Play.getGrid().filledBoxsCountProperty();}
+    public BooleanBinding getVictoryProperty() {return board4Play.victoryProperty();}
 
 }
