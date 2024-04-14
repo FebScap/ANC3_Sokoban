@@ -83,10 +83,13 @@ public class BoardView4Design extends BoardView {
     private void setupPlayButton() {
         buttonPane.getChildren().add(playButton);
         setBottom(buttonPane);
-
-        //TODO VALIDATION D'ACTIVATION DU BUTTON PLAY
-        //playButton.setDisable(true);
-        //playButton.disabledProperty()
+        
+        playButton.disableProperty().bind(
+                errorPlayer.visibleProperty().or(
+                        errorBox.visibleProperty()).or(
+                        errorTarget.visibleProperty()).or(
+                        errorBoxesTargets.visibleProperty())
+        );
 
         playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
