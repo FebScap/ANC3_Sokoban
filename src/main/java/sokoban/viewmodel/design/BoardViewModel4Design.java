@@ -127,7 +127,6 @@ public class BoardViewModel4Design extends BoardViewModel {
                 List<String> lines = Files.readAllLines(file.toPath());
                 int line = lines.size();
                 int col = lines.get(0).length();
-                System.out.println(line + " " + col);
 
                 Board4Design newBoard4Design = new Board4Design(line, col);
                 BoardViewModel4Design vm = new BoardViewModel4Design(newBoard4Design);
