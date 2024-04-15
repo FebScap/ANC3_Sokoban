@@ -18,7 +18,10 @@
 
 ## Notes de version itération 2
 
-...
+### Liste des bugs connus
+
+* Plusieurs problèmes d'affichage et de responsive design
+* Le numéro des box ne s'affiche pas
 
 ## Notes de version itération 3
 
