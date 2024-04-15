@@ -53,20 +53,6 @@ public class CellView4Play extends CellView {
         cellViewModel4Play.valueProperty().addListener(this::onValueChanged);
     }
 
-    private void playEvent(MouseEvent e) {
-        switch (MenuView.cellValue) {
-            case PLAYER -> cellViewModel4Play.play(new Player());
-            case BOX -> cellViewModel4Play.play(new Box());
-            case WALL -> cellViewModel4Play.play(new Wall());
-            case GROUND -> cellViewModel4Play.play(new Ground());
-            case TARGET -> cellViewModel4Play.play(new Target());
-        }
-        if (e.getButton() == MouseButton.SECONDARY){
-            cellViewModel4Play.play(new Ground());
-        }
-    }
-
-
     private void onValueChanged(ObservableValue<? extends Map<Integer, GameObject>> observableValue, Map<Integer, GameObject> oldValue, Map<Integer, GameObject> newValue) {
         setImage(imageView, newValue);
     }
