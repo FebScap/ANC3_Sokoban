@@ -59,6 +59,8 @@ public class BoardView4Play extends BoardView {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
+
+        stage.setOnCloseRequest(e -> boardViewModel4Play.deleteTempFile());
     }
 
     private void configMainComponents(Stage stage, File file) {

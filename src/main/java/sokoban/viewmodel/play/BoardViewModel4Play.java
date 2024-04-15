@@ -62,4 +62,8 @@ public class BoardViewModel4Play extends BoardViewModel {
     public IntegerBinding getFilledBoxsCountProperty() {return board4Play.getGrid().filledBoxsCountProperty();}
     public BooleanBinding getVictoryProperty() {return board4Play.victoryProperty();}
 
+    public Boolean deleteTempFile() {
+        File file = new File("src/main/resources/playing.xsb");
+        return file.delete();
+    }
 }
