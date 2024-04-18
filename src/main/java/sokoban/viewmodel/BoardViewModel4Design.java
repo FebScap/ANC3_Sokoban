@@ -6,8 +6,6 @@ import javafx.collections.ObservableMap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import sokoban.model.cell.*;
-import sokoban.model.cell.Box;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 import sokoban.model.cell.*;
@@ -138,6 +136,7 @@ public class BoardViewModel4Design extends BoardViewModel {
      * Type 0 : Open a dialog to create a new file
      * Type 1 : Open a file
      * Type 2 : Change the application title with modified star
+     * Type 3 : Start the game
      */
     public void fileModified(Stage stage, int type) {
         String oldString = board4Design.getActualBoardSave().getValue();
@@ -149,11 +148,13 @@ public class BoardViewModel4Design extends BoardViewModel {
                     switch (type) {
                         case 0 -> newFileDialog(stage);
                         case 1 -> openFile(stage);
+                        case 3 -> playButton(stage);
                     }
                 } else if (result == 1) {
                     switch (type) {
                         case 0 -> newFileDialog(stage);
                         case 1 -> openFile(stage);
+                        case 3 -> playButton(stage);
                     }
                 }
             } else {
@@ -164,6 +165,7 @@ public class BoardViewModel4Design extends BoardViewModel {
                 case 0 -> newFileDialog(stage);
                 case 1 -> openFile(stage);
                 case 2 -> stage.setTitle("Sokoban");
+                case 3 -> playButton(stage);
             }
         }
     }

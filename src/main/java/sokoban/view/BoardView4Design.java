@@ -90,7 +90,7 @@ public class BoardView4Design extends BoardView {
         playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                boardViewModel4Design.playButton(primaryStage);
+                boardViewModel4Design.fileModified(primaryStage, 3);
             }
         });
     }
