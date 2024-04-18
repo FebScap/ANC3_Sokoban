@@ -83,32 +83,33 @@ public class Board4Play extends Board {
 
     public boolean tryMoveBox(int line, int col, int direction) {
         Cell4Play cellToGo = grid4Play.getCell(line, col);
+        GameObject oldBox = cellToGo.getElementsProperty().get(1);
         if (cellToGo.getElementsProperty().get(1) instanceof Box) {
             switch (direction) {
                 case 0:
                     if (line-1 >= 0 && boxCanMove(line - 1, col)) {
-                        getGrid().setCell(line - 1, col, new Box());
+                        getGrid().setCell(line - 1, col, oldBox);
                         return true;
                     } else {
                         return false;
                     }
                 case 1:
                     if (col+1 < getGrid().getCol() && boxCanMove(line, col + 1)) {
-                        getGrid().setCell(line, col + 1, new Box());
+                        getGrid().setCell(line, col + 1, oldBox);
                         return true;
                     } else {
                         return false;
                     }
                 case 2:
                     if (line+1 < getGrid().getLine() && boxCanMove(line + 1, col)) {
-                        getGrid().setCell(line + 1 , col, new Box());
+                        getGrid().setCell(line + 1 , col, oldBox);
                         return true;
                     } else {
                         return false;
                     }
                 case 3:
                     if (col-1 >= 0 && boxCanMove(line, col - 1)) {
-                        getGrid().setCell(line, col - 1, new Box());
+                        getGrid().setCell(line, col - 1, oldBox);
                         return true;
                     } else {
                         return false;
