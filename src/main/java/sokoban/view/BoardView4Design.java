@@ -23,8 +23,8 @@ public class BoardView4Design extends BoardView {
     private final Stage primaryStage;
 
     // Constantes de mise en page
-    private static final int SCENE_MIN_WIDTH = 800;
-    private static final int SCENE_MIN_HEIGHT = 600;
+    private static int SCENE_MIN_WIDTH;
+    private static int SCENE_MIN_HEIGHT;
 
     // Composants principaux
     private final Label headerLabel = new Label("");
@@ -63,8 +63,6 @@ public class BoardView4Design extends BoardView {
 
         stage.setScene(scene);
         stage.show();
-        stage.setMinHeight(stage.getHeight());
-        stage.setMinWidth(stage.getWidth());
 
         //creation et suppression du fichier temporaire
         boardViewModel4Design.saveActualBoard();
@@ -160,7 +158,7 @@ public class BoardView4Design extends BoardView {
 
     private void createGrid(File file) {
         DoubleBinding menuWidth = Bindings.createDoubleBinding(
-                ()-> Math.floor(Math.min((heightProperty().doubleValue() - 40),
+                ()-> Math.floor(Math.min((heightProperty().doubleValue()) - 40,
                         (widthProperty().doubleValue() - 40) / widthProperty().doubleValue())
                 ),
                 heightProperty(),
@@ -173,17 +171,10 @@ public class BoardView4Design extends BoardView {
                 widthProperty()
         );
 
-        DoubleBinding gridHeight = Bindings.createDoubleBinding(
-                () -> Math.floor((heightProperty().get() - headerBox.heightProperty().get())
-                        / boardViewModel4Design.gridHeight()) * boardViewModel4Design.gridHeight(),
-                heightProperty(),
-                headerBox.heightProperty());
-
         GridView4Design gridView4Design;
         if (file == null) {
             gridView4Design = new GridView4Design(boardViewModel4Design.getGridViewModel(),
                     gridWidth,
-                    gridHeight,
                     boardViewModel4Design.gridWidth(),
                     boardViewModel4Design.gridHeight());
         } else {
@@ -199,6 +190,9 @@ public class BoardView4Design extends BoardView {
 
         menuView.setAlignment(Pos.CENTER);
         gridView4Design.setAlignment(Pos.CENTER);
+
+        SCENE_MIN_HEIGHT = (int) (400 + (boardViewModel4Design.gridWidth()*30) + buttonPane.getHeight() + headerBox.getHeight());
+        SCENE_MIN_WIDTH = (int) (400 + (boardViewModel4Design.gridHeight()*30) + menuBar.getWidth());
 
         setLeft(menuView);
         setCenter(gridView4Design);

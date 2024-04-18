@@ -2,6 +2,7 @@ package sokoban.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,15 +22,13 @@ public class BoardView4Play extends BoardView {
     private final Stage primaryStage;
 
     // Constantes de mise en page
-    private static final int SCENE_MIN_WIDTH = 800;
-    private static final int SCENE_MIN_HEIGHT = 600;
+    private static int SCENE_MIN_WIDTH;
+    private static int SCENE_MIN_HEIGHT;
 
     // Composants principaux
     private final Label headerLabel = new Label("Score");
 
-    private final Label movesPlayedText = new Label("Number of moves played: ");
     private final Label movesPlayedCount = new Label();
-    private final Label goalsReachedText = new Label("Number of goals reached: ");
     private final Label goalsReachedCount = new Label();
     private final Label victory = new Label();
 
@@ -52,11 +51,7 @@ public class BoardView4Play extends BoardView {
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
         String cssFile = Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm();
         scene.getStylesheets().add(cssFile);
-
         stage.setScene(scene);
-        stage.show();
-        stage.setMinHeight(stage.getHeight());
-        stage.setMinWidth(stage.getWidth());
     }
 
     private void configMainComponents(Stage stage) {
@@ -87,22 +82,27 @@ public class BoardView4Play extends BoardView {
     }
 
     private void createHeader(Stage stage) {
+        headerLabel.getStyleClass().add("header");
         headerBox.getChildren().add(headerLabel);
-        headerBox.setAlignment(Pos.CENTER);
+        headerBox.setAlignment(Pos.CENTER_LEFT);
+        DoubleBinding headerPadding = Bindings.createDoubleBinding(
+                ()-> stage.widthProperty().doubleValue() / 5,
+                stage.widthProperty());
+        headerBox.setPadding(new Insets(0, 0, 0, headerPadding.getValue()));
         setTop(headerBox);
 
-        headerBox.getChildren().add(movesPlayedText);
-        movesPlayedCount.textProperty().bind(boardViewModel4Play.getMoveCount().asString("%d"));
+        movesPlayedCount.textProperty().bind(boardViewModel4Play.getMoveCount().asString("Number of moves played: %d"));
         headerBox.getChildren().add(movesPlayedCount);
 
-        headerBox.getChildren().add(goalsReachedText);
-        goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("%d of " + boardViewModel4Play.getFilledBoxsCountProperty().getValue()));
+        goalsReachedCount.textProperty().bind(boardViewModel4Play.getGoalsReachedCount().asString("Number of goals reached: %d of " + boardViewModel4Play.getFilledBoxsCountProperty().getValue()));
         headerBox.getChildren().add(goalsReachedCount);
 
         headerBox.getChildren().add(victory);
         victory.setVisible(false);
         victory.setManaged(false);
-        victory.textProperty().bind(boardViewModel4Play.getMoveCount().asString("GG You won in %d"));
+
+        victory.getStyleClass().add("header");
+        victory.textProperty().bind(boardViewModel4Play.getMoveCount().asString("You won in %d moves, congratulations !!"));
         victory.visibleProperty().bind(boardViewModel4Play.getVictoryProperty());
         victory.managedProperty().bind(victory.visibleProperty());
     }
@@ -122,12 +122,8 @@ public class BoardView4Play extends BoardView {
                 widthProperty()
         );
 
-        DoubleBinding gridHeight = Bindings.createDoubleBinding(
-                () -> Math.floor((heightProperty().get() - headerBox.heightProperty().get())
-                        / boardViewModel4Play.gridHeight()) * boardViewModel4Play.gridHeight(),
-                heightProperty(),
-                headerBox.heightProperty());
-
+        SCENE_MIN_HEIGHT = (int) (400 + (boardViewModel4Play.gridWidth()*30) + buttonPane.getHeight() + headerBox.getHeight());
+        SCENE_MIN_WIDTH = 400 + (boardViewModel4Play.gridHeight()*30);
         GridView4Play gridView4Play;
         gridView4Play = new GridView4Play(boardViewModel4Play.getGridViewModel4Play(),
                     gridWidth, boardViewModel4Play.getActualBoard().getValue());

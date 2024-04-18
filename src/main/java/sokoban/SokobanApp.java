@@ -11,6 +11,8 @@ public class SokobanApp extends Application  {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.setMinHeight(primaryStage.getMinHeight() + 200);
+        primaryStage.setMinWidth((primaryStage.getMinWidth()) + 200);
         primaryStage.getIcons().add(new Image("player.png"));
         Board4Design board4Design = new Board4Design(10,15);
         BoardViewModel4Design vm = new BoardViewModel4Design(board4Design);
