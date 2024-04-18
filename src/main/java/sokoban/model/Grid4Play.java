@@ -66,6 +66,8 @@ public class Grid4Play extends Grid {
         return matrix[line][col];
     }
 
+
+
     void play(int line, int col, GameObject value) {
         this.setCell(line, col, value);
         filledPlayerCount.invalidate();

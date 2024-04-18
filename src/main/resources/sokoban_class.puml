@@ -47,7 +47,7 @@ package model {
 
     Cell <|-- Cell4Design
 
-    class ElementStack {
+    abstract class ElementStack {
     }
 
     class ElementStack4Play {

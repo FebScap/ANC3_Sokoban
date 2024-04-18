@@ -6,9 +6,9 @@ import javafx.collections.ObservableMap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import sokoban.model.cell.*;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
+import sokoban.model.cell.*;
 import sokoban.utils.dialog.DoSave;
 import sokoban.utils.dialog.NewFile;
 import sokoban.view.BoardView4Design;
@@ -69,7 +69,7 @@ public class BoardViewModel4Design extends BoardViewModel {
     public void exit(Stage stage) {
         int result = DoSave.doSave();
         if (result == 0) {
-           if (save(stage, true)) {
+           if (save(stage)) {
                Platform.exit();
                System.exit(0);
            }
@@ -80,17 +80,13 @@ public class BoardViewModel4Design extends BoardViewModel {
     }
 
     /// Sauvegarde du fichier, return true si la sauvegarde est faite
-    public boolean save(Stage stage, Boolean fileChooser) {
+    public boolean save(Stage stage) {
         File file;
-        if (fileChooser) {
-            FileChooser choose = new FileChooser();
-            choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
-            choose.setInitialFileName("level.xsb");
-            choose.setInitialDirectory(new File("src/main/resources"));
-            file = choose.showSaveDialog(stage);
-        } else {
-            file = new File("src/main/resources/temp.xsb");
-        }
+        FileChooser choose = new FileChooser();
+        choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb"));
+        choose.setInitialFileName("level.xsb");
+        choose.setInitialDirectory(new File("src/main/resources"));
+        file = choose.showSaveDialog(stage);
 
         String str = fileStringBuilder();
         if (file != null) {
@@ -99,6 +95,7 @@ public class BoardViewModel4Design extends BoardViewModel {
                         new FileOutputStream(file), StandardCharsets.UTF_8))) {
                     writer.write(str);
                     stage.setTitle("Sokoban");
+                    saveActualBoard();
                     return true;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -110,9 +107,8 @@ public class BoardViewModel4Design extends BoardViewModel {
         return false;
     }
 
-    public Boolean deleteTempFile() {
-        File file = new File("src/main/resources/temp.xsb");
-        return file.delete();
+    public void saveActualBoard() {
+        board4Design.setActualBoardSave(fileStringBuilder());
     }
 
     public void openFile(Stage stage) {
@@ -139,24 +135,15 @@ public class BoardViewModel4Design extends BoardViewModel {
      * <p>
      * Type 0 : Open a dialog to create a new file
      * Type 1 : Open a file
-     * Type 1 : Change the application title with modified star
+     * Type 2 : Change the application title with modified star
      */
     public void fileModified(Stage stage, int type) {
-        File file = new File("src/main/resources/temp.xsb");
-        StringBuilder oldString = new StringBuilder();
-        try {
-            List<String> lines = Files.readAllLines(file.toPath());
-            for (String s : lines) {
-                oldString.append(s).append("\n");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String oldString = board4Design.getActualBoardSave().getValue();
         if (!fileStringBuilder().contentEquals(oldString)) {
             if (type != 2) {
                 int result = DoSave.doSave();
                 if (result == 0) {
-                    save(stage, true);
+                    save(stage);
                     switch (type) {
                         case 0 -> newFileDialog(stage);
                         case 1 -> openFile(stage);
@@ -215,16 +202,9 @@ public class BoardViewModel4Design extends BoardViewModel {
         int line = board4Design.getGrid().getLine();
         int col = board4Design.getGrid().getCol();
 
-        File file = new File("src/main/resources/playing.xsb");
-        String str = fileStringBuilder();
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(file), StandardCharsets.UTF_8))) {
-            writer.write(str);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         Board4Play board4Play = new Board4Play(line,col);
+        board4Play.setActualBoardSave(fileStringBuilder());
         BoardViewModel4Play vm = new BoardViewModel4Play(board4Play);
-        new BoardView4Play(primaryStage, vm, new File("src/main/resources/playing.xsb"));
+        new BoardView4Play(primaryStage, vm);
     }
 }

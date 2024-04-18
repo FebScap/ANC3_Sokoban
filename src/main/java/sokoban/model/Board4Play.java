@@ -2,11 +2,15 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import sokoban.model.cell.*;
 
 public class Board4Play extends Board {
     private final Grid4Play grid4Play;
     private final BooleanBinding victory;
+
+    private final static StringProperty actualBoard = new SimpleStringProperty();
 
 
     public Board4Play(int line, int col) {
@@ -16,6 +20,14 @@ public class Board4Play extends Board {
 
     public Grid4Play getGrid() {
         return this.grid4Play;
+    }
+
+    public StringProperty getActualBoard() {
+        return actualBoard;
+    }
+
+    public void setActualBoardSave(String s) {
+        actualBoard.setValue(s);
     }
 
     public void play(int line, int col, GameObject value) {

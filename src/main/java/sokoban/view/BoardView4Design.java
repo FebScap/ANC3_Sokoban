@@ -67,8 +67,7 @@ public class BoardView4Design extends BoardView {
         stage.setMinWidth(stage.getWidth());
 
         //creation et suppression du fichier temporaire
-        boardViewModel4Design.save(stage, false);
-        stage.setOnCloseRequest(e -> boardViewModel4Design.deleteTempFile());
+        boardViewModel4Design.saveActualBoard();
     }
 
     private void configMainComponents(Stage stage, File file) {
@@ -108,7 +107,7 @@ public class BoardView4Design extends BoardView {
         //LISTENER DU MENU
         menuItemNew.setOnAction(e -> boardViewModel4Design.fileModified(stage, 0));
         menuItemOpen.setOnAction(e -> boardViewModel4Design.fileModified(stage, 1));
-        menuItemSave.setOnAction(e -> boardViewModel4Design.save(stage, true));
+        menuItemSave.setOnAction(e -> boardViewModel4Design.save(stage));
         menuItemExit.setOnAction(e -> boardViewModel4Design.exit(stage));
         menuBar.getMenus().add(menuFile);
 
