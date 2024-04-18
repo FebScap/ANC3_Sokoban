@@ -3,9 +3,9 @@ package sokoban;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import sokoban.model.design.Board4Design;
-import sokoban.view.design.BoardView4Design;
-import sokoban.viewmodel.design.BoardViewModel4Design;
+import sokoban.model.Board4Design;
+import sokoban.view.BoardView4Design;
+import sokoban.viewmodel.BoardViewModel4Design;
 
 public class SokobanApp extends Application  {
 
