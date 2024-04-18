@@ -1,9 +1,11 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import sokoban.model.cell.CellValue;
 
 import java.util.HashMap;
@@ -20,4 +22,5 @@ public abstract class CellView extends StackPane {
     protected final ImageView imageView = new ImageView();
     protected final ImageView imageViewMid = new ImageView();
     protected final ImageView imageViewTop = new ImageView();
+    protected final Label numberText = new Label();
 }

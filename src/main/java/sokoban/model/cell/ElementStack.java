@@ -22,6 +22,11 @@ public abstract class ElementStack {
                 elements.put(0, new Ground());
             }
             elements.put(1, element);
+            if (element instanceof Box) {
+                elements.put(3, element);
+            } else {
+                elements.put(3, null);
+            }
         } else if (element instanceof Target) {
             if (elements.get(0) instanceof Wall) {
                 elements.put(0, new Ground());
@@ -35,6 +40,7 @@ public abstract class ElementStack {
             elements.getValue().put(0, new Ground());
         } else if (element instanceof Player || element instanceof Box) {
             elements.put(1, null);
+            elements.put(3, null);
         } else if (element instanceof Target) {
             elements.put(2, null);
 

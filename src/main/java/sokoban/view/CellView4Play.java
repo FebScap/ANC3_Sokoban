@@ -33,7 +33,7 @@ public class CellView4Play extends CellView {
         imageViewMid.setPreserveRatio(true);
         imageViewTop.setPreserveRatio(true);
 
-        getChildren().addAll(imageView, imageViewMid, imageViewTop);
+        getChildren().addAll(imageView, imageViewMid, imageViewTop, numberText);
     }
 
     private void configureBindings() {
@@ -68,11 +68,15 @@ public class CellView4Play extends CellView {
         if (cellValue.get(2) instanceof Target) {
             imageViewTop.setImage(images.get(CellValue.TARGET));
         }
+        if (cellValue.get(3) instanceof Box) {
+            numberText.setText(((Box) cellValue.get(3)).getBoxNumber());
+        }
     }
 
     private void clearImages() {
         imageView.setImage(null);
         imageViewMid.setImage(null);
         imageViewTop.setImage(null);
+        numberText.setText(null);
     }
 }

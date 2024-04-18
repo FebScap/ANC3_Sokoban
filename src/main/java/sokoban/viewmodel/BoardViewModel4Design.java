@@ -7,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import sokoban.model.cell.*;
+import sokoban.model.cell.Box;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 import sokoban.utils.dialog.DoSave;
@@ -225,6 +226,7 @@ public class BoardViewModel4Design extends BoardViewModel {
         }
         Board4Play board4Play = new Board4Play(line,col);
         BoardViewModel4Play vm = new BoardViewModel4Play(board4Play);
+        Box.resetBoxNumberWhenStart();
         new BoardView4Play(primaryStage, vm, new File("src/main/resources/playing.xsb"));
     }
 }
