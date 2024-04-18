@@ -4,13 +4,14 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 import sokoban.view.BoardView4Design;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -36,11 +37,20 @@ public class BoardViewModel4Play extends BoardViewModel {
     }
 
 
-    public LongBinding filledPlayerCountProperty() {return board4Play.getGrid().filledPlayerCountProperty();}
+    public LongBinding filledPlayerCountProperty() {
+        return board4Play.getGrid().filledPlayerCountProperty();
+    }
 
 
     public void finishButton(Stage primaryStage) {
         File file = new File("src/main/resources/playing.xsb");
+        String str = getActualBoard().getValue();
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(file), StandardCharsets.UTF_8))) {
+            writer.write(str);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         try {
             List<String> lines = Files.readAllLines(file.toPath());
             int line = lines.size();
@@ -53,15 +63,28 @@ public class BoardViewModel4Play extends BoardViewModel {
             throw new RuntimeException(e);
         }
     }
-    public void movePlayer(int direction) {board4Play.movePlayer(direction);
-    }
-    public IntegerProperty getMoveCount() {return board4Play.getGrid().moveCountProperty();}
-    public IntegerBinding getGoalsReachedCount() {return board4Play.getGrid().goalsReachedCountProperty();}
-    public IntegerBinding getFilledBoxsCountProperty() {return board4Play.getGrid().filledBoxsCountProperty();}
-    public BooleanBinding getVictoryProperty() {return board4Play.victoryProperty();}
 
-    public Boolean deleteTempFile() {
-        File file = new File("src/main/resources/playing.xsb");
-        return file.delete();
+    public void movePlayer(int direction) {
+        board4Play.movePlayer(direction);
+    }
+
+    public IntegerProperty getMoveCount() {
+        return board4Play.getGrid().moveCountProperty();
+    }
+
+    public IntegerBinding getGoalsReachedCount() {
+        return board4Play.getGrid().goalsReachedCountProperty();
+    }
+
+    public IntegerBinding getFilledBoxsCountProperty() {
+        return board4Play.getGrid().filledBoxsCountProperty();
+    }
+
+    public BooleanBinding getVictoryProperty() {
+        return board4Play.victoryProperty();
+    }
+
+    public StringProperty getActualBoard() {
+        return board4Play.getActualBoard();
     }
 }

@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel4Play;
 
-import java.io.File;
 import java.util.Objects;
 
 public class BoardView4Play extends BoardView {
@@ -39,15 +38,15 @@ public class BoardView4Play extends BoardView {
     private final Button finishButton = new Button("Finish");
     private final StackPane buttonPane = new StackPane();
 
-    public BoardView4Play(Stage primaryStage, BoardViewModel4Play boardViewModel4Play, File file) {
+    public BoardView4Play(Stage primaryStage, BoardViewModel4Play boardViewModel4Play) {
         this.boardViewModel4Play = boardViewModel4Play;
         this.primaryStage = primaryStage;
-        start(primaryStage, file);
+        start(primaryStage);
     }
 
-    private void start(Stage stage, File file) {
+    private void start(Stage stage) {
         // Mise en place des composants principaux
-        configMainComponents(stage, file);
+        configMainComponents(stage);
 
         // Mise en place de la scène et affichage de la fenêtre
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
@@ -58,13 +57,11 @@ public class BoardView4Play extends BoardView {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
-
-        stage.setOnCloseRequest(e -> boardViewModel4Play.deleteTempFile());
     }
 
-    private void configMainComponents(Stage stage, File file) {
+    private void configMainComponents(Stage stage) {
         stage.setTitle("Sokoban");
-        createGrid(file);
+        createGrid();
         createHeader(stage);
         setupFinishButton();
 
@@ -110,7 +107,7 @@ public class BoardView4Play extends BoardView {
         victory.managedProperty().bind(victory.visibleProperty());
     }
 
-    private void createGrid(File file) {
+    private void createGrid() {
         DoubleBinding menuWidth = Bindings.createDoubleBinding(
                 ()-> Math.floor(Math.min((heightProperty().doubleValue() - 40),
                         (widthProperty().doubleValue() - 40) / widthProperty().doubleValue())
@@ -133,8 +130,7 @@ public class BoardView4Play extends BoardView {
 
         GridView4Play gridView4Play;
         gridView4Play = new GridView4Play(boardViewModel4Play.getGridViewModel4Play(),
-                    gridWidth,
-                    file);
+                    gridWidth, boardViewModel4Play.getActualBoard().getValue());
         setCenter(gridView4Play);
     }
 }

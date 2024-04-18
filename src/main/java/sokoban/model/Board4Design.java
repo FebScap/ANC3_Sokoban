@@ -2,6 +2,8 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import sokoban.model.cell.GameObject;
 
 public class Board4Design extends Board {
@@ -11,6 +13,8 @@ public class Board4Design extends Board {
     private static final int MIN_OF_BOX = 0;
 
     private static final int MIN_OF_TARGET = 0;
+
+    private final static StringProperty actualBoardSave = new SimpleStringProperty();
 
     private final BooleanBinding isFull;
     private final BooleanBinding validatePlayer;
@@ -25,6 +29,14 @@ public class Board4Design extends Board {
 
     public Grid4Design getGrid() {
         return this.grid4Design;
+    }
+
+    public StringProperty getActualBoardSave() {
+        return actualBoardSave;
+    }
+
+    public void setActualBoardSave(String s) {
+        actualBoardSave.setValue(s);
     }
 
     public void play(int line, int col, GameObject value) {

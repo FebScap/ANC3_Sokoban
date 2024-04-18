@@ -4,9 +4,9 @@ skinparam classAttributeIconSize 0
 skinparam defaultFontName Consolas
 !pragma useIntermediatePackages false
 
+/' CREATION DES CLASSES ET RELATIONS DE BASE '/
 class SokobanApp {
 }
-
 package model {
     abstract class Board {
     }
@@ -47,7 +47,7 @@ package model {
 
     Cell <|-- Cell4Design
 
-    class ElementStack {
+    abstract class ElementStack {
     }
 
     class ElementStack4Play {
@@ -183,6 +183,6 @@ package viewmodel {
     }
 }
 
-
+/' RELATIONS '/
 
 @enduml
