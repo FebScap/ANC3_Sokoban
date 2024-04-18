@@ -33,6 +33,7 @@ public class CellView4Play extends CellView {
         imageViewMid.setPreserveRatio(true);
         imageViewTop.setPreserveRatio(true);
 
+        numberText.getStyleClass().add("number");
         getChildren().addAll(imageView, imageViewMid, imageViewTop, numberText);
     }
 

@@ -14,3 +14,9 @@
     -fx-font-weight: bold;
     -fx-font-size: 16;
 }
+
+.number {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-background-color: white;
+}
