@@ -2,10 +2,7 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.MapProperty;
-import sokoban.model.cell.Box;
-import sokoban.model.cell.GameObject;
-import sokoban.model.cell.Player;
-import sokoban.model.cell.Wall;
+import sokoban.model.cell.*;
 
 public class Board4Play extends Board {
     private final Grid4Play grid4Play;

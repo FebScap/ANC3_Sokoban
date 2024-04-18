@@ -6,10 +6,7 @@ import javafx.beans.binding.LongBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import sokoban.model.cell.Box;
-import sokoban.model.cell.GameObject;
-import sokoban.model.cell.Player;
-import sokoban.model.cell.Target;
+import sokoban.model.cell.*;
 
 import java.util.Arrays;
 

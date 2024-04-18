@@ -1,4 +1,4 @@
-package sokoban.model;
+package sokoban.model.cell;
 
 import javafx.beans.property.MapProperty;
 import sokoban.model.cell.Cell;
