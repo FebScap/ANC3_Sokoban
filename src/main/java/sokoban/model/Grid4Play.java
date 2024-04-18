@@ -53,13 +53,15 @@ public class Grid4Play extends Grid {
             setPosPlayerCol(col);
         }
         if (value instanceof Player) {
+            //moveCount.set(moveCount.get() + 1);
+
             setPosPlayerLine(line);
             setPosPlayerCol(col);
             moveCount.set(moveCount.get() + 1);
         }
+        matrix[line][col].addElement(value);
         goalsReachedCount.invalidate();
         goalsReachedCount.get();
-        matrix[line][col].addElement(value);
     }
 
     public Cell4Play getCell(int line, int col) {
