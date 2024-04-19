@@ -1,0 +1,206 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Consolas
+!pragma useIntermediatePackages false
+
+/' CREATION DES CLASSES ET RELATIONS DE BASE '/
+class SokobanApp {
+}
+package model {
+    abstract class Board {
+    }
+
+    class Board4Play {
+    }
+
+    class Board4Design {
+    }
+
+    abstract class Grid {
+    }
+
+    class Grid4Play {
+    }
+
+    class Grid4Design {
+    }
+
+    abstract class Cell {
+    }
+
+    class Cell4Play {
+    }
+
+    class Cell4Design {
+    }
+
+    abstract class ElementStack {
+    }
+
+    class ElementStack4Play {
+    }
+
+    class ElementStack4Design {
+    }
+
+    abstract class GameObject {
+    }
+
+    class Wall {
+    }
+
+    class Box {
+    }
+
+    class Player {
+    }
+
+    class Target {
+    }
+
+    class Ground {
+    }
+}
+
+package view {
+    abstract class BoardView {
+    }
+
+    class BoardView4Play {
+    }
+
+    class BoardView4Design {
+    }
+
+    abstract class GridView {
+    }
+
+    class GridView4Play {
+    }
+
+    class GridView4Design {
+    }
+
+    abstract class CellView {
+    }
+
+    class CellView4Play {
+    }
+
+    class CellView4Design {
+    }
+
+    class MenuView {
+    }
+
+    class ToolView {
+    }
+}
+
+package viewmodel {
+    abstract class BoardViewModel {
+    }
+
+    class BoardViewModel4Play {
+    }
+
+
+    class BoardViewModel4Design {
+    }
+
+    abstract class GridViewModel {
+    }
+
+    class GridViewModel4Play {
+    }
+
+    class GridViewModel4Design {
+    }
+
+    abstract class CellViewModel {
+    }
+
+    class CellViewModel4Play {
+    }
+
+    class CellViewModel4Design {
+    }
+
+    class MenuViewModel {
+    }
+
+    class ToolViewModel {
+    }
+}
+
+/' RELATIONS '/
+
+Board <|-- Board4Play
+Board <|-- Board4Design
+Grid <|-- Grid4Play
+Grid <|-- Grid4Design
+Cell <|-- Cell4Play
+Cell <|-- Cell4Design
+ElementStack <|-- ElementStack4Play
+ElementStack <|-- ElementStack4Design
+GameObject <|-- Wall
+GameObject <|-- Box
+GameObject <|-- Player
+GameObject <|-- Target
+GameObject <|-- Ground
+
+BoardView <|-- BoardView4Play
+BoardView <|-- BoardView4Design
+GridView <|-- GridView4Play
+GridView <|-- GridView4Design
+CellView <|-- CellView4Play
+CellView <|-- CellView4Design
+
+BoardViewModel <|-- BoardViewModel4Play
+BoardViewModel <|-- BoardViewModel4Design
+GridViewModel <|-- GridViewModel4Play
+GridViewModel <|-- GridViewModel4Design
+CellViewModel <|-- CellViewModel4Play
+CellViewModel <|-- CellViewModel4Design
+
+/' INSTANTIATIONS '/
+
+SokobanApp *--> "1" Board4Design
+Board4Design *--> "1" Grid4Design
+Grid4Design *--> "m" Cell4Design
+Cell4Design *--> "1" ElementStack4Design
+ElementStack4Design *--> "1..3" GameObject
+
+SokobanApp *--> "1" BoardViewModel4Design
+BoardViewModel4Design --> Board4Design
+BoardViewModel4Design *--> "1" MenuViewModel
+MenuViewModel *--> "4" ToolViewModel
+BoardViewModel4Design *--> "1" GridViewModel4Design
+GridViewModel4Design *--> "m" CellViewModel4Design
+
+SokobanApp *--> "1" BoardView4Design
+BoardView4Design *--> "1" GridView4Design
+BoardView4Design *--> "1" MenuView
+MenuView *--> "4" ToolView
+GridView4Design *--> "m" CellView4Design
+
+BoardViewModel4Design --> Board4Play
+BoardViewModel4Design --> BoardViewModel4Play
+BoardViewModel4Design --> BoardView4Play
+
+BoardView4Play --> BoardViewModel4Play
+
+Board4Play *--> "1" Grid4Play
+Grid4Play *--> "m" Cell4Play
+Cell4Play *--> "1" ElementStack4Play
+ElementStack4Play *--> "1..3" GameObject
+
+BoardViewModel4Play --> Board4Play
+BoardViewModel4Play *--> "1" GridViewModel4Play
+GridViewModel4Play *--> "m" CellViewModel4Play
+
+BoardView4Play *--> "1" GridView4Play
+GridView4Play *--> "m" CellView4Play
+
+@enduml
