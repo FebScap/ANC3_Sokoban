@@ -3,14 +3,16 @@ package sokoban;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import sokoban.model.design.Board4Design;
-import sokoban.view.design.BoardView4Design;
-import sokoban.viewmodel.design.BoardViewModel4Design;
+import sokoban.model.Board4Design;
+import sokoban.view.BoardView4Design;
+import sokoban.viewmodel.BoardViewModel4Design;
 
 public class SokobanApp extends Application  {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.setMinHeight(primaryStage.getMinHeight() + 200);
+        primaryStage.setMinWidth((primaryStage.getMinWidth()) + 200);
         primaryStage.getIcons().add(new Image("player.png"));
         Board4Design board4Design = new Board4Design(10,15);
         BoardViewModel4Design vm = new BoardViewModel4Design(board4Design);

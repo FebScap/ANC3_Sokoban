@@ -1,4 +1,4 @@
-.scale-button {
+.  {
     -fx-min-width: 15px;
     -fx-min-height: 15px;
     -fx-max-width: 15px;
@@ -13,4 +13,10 @@
 .header {
     -fx-font-weight: bold;
     -fx-font-size: 16;
+}
+
+.number {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-background-color: white;
 }
