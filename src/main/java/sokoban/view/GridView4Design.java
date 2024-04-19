@@ -34,7 +34,6 @@ class GridView4Design extends GridView {
         } else {
             cellWidth = cellWidthCol;
         }
-        System.out.println(gridWidth);
 
         // Remplissage de la grille
         for (int i = 0; i < line; ++i) {

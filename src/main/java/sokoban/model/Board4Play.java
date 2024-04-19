@@ -12,7 +12,6 @@ public class Board4Play extends Board {
 
     private final static StringProperty actualBoard = new SimpleStringProperty();
 
-
     public Board4Play(int line, int col) {
         this.grid4Play = new Grid4Play(line, col);
         this.victory = grid4Play.goalsReachedCountProperty().isEqualTo(grid4Play.filledBoxsCountProperty());
