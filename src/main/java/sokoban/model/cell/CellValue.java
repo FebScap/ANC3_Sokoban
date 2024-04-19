@@ -1,5 +1,5 @@
 package sokoban.model.cell;
 
 public enum CellValue {
-    GROUND, WALL, TARGET, BOX, BOX_TARGET, PLAYER, PLAYER_TARGET
+    GROUND, WALL, TARGET, BOX, PLAYER
 }

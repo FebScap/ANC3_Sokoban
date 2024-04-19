@@ -14,17 +14,11 @@ public abstract class Grid {
         return posPlayerLine.get();
     }
 
-    public IntegerProperty posPlayerLineProperty() {
-        return posPlayerLine;
-    }
 
     public int getPosPlayerCol() {
         return posPlayerCol.get();
     }
 
-    public IntegerProperty posPlayerColProperty() {
-        return posPlayerCol;
-    }
 
     public void setPosPlayerLine(int posPlayerLine) {
         this.posPlayerLine.set(posPlayerLine);

@@ -8,12 +8,9 @@ import sokoban.model.cell.*;
 import java.util.Arrays;
 
 public class Grid4Design extends Grid {
-    private final int line;
-    private final int col;
 
     private final Cell4Design[][] matrix;
     private final LongBinding filledCellsCount;
-    private final LongBinding filledPlayerCount;
     private final LongBinding filledBoxsCount;
     private final LongBinding filledTargetsCount;
 
@@ -77,12 +74,6 @@ public class Grid4Design extends Grid {
         filledTargetsCount.invalidate();
     }
 
-    public int getLine() {
-        return this.line;
-    }
-    public int getCol() {
-        return this.col;
-    }
 
     MapProperty<Integer, GameObject> valueProperty(int line, int col) {
         return matrix[line][col].getElementsProperty();
